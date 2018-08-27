@@ -1,0 +1,181 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard</title>
+
+    <link href="{{ asset('build2/Knight/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+    <link href="{{ asset('build2/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('build2/css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('build2/css/plugins/morris.css')}}" rel="stylesheet">
+    <link href="{{ asset('build2/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+    <script LANGUAGE="JavaScript">
+        <!--
+        // Nannette Thacker http://www.shiningstar.net
+        function confirmSubmit()
+        {
+            var agree=confirm("Are you sure you wish to Delete this Entry?");
+            if (agree)
+                return true ;
+            else
+                return false ;
+        }
+        function confirmDeleteSubmit()
+        {
+            var agree=confirm("Are you sure you wish to Delete Seletec Record?");
+            if (agree)
+
+                document.deletefiles.submit();
+            else
+                return false ;
+        }
+        function checkAll()
+        {
+
+            var field=document.forms.deletefiles;
+            for (i = 0; i < field.length; i++)
+                field[i].checked = true ;
+        }
+
+        function uncheckAll()
+        {
+            var field=document.forms.deletefiles;
+            for (i = 0; i < field.length; i++)
+                field[i].checked = false ;
+        }
+        // -->
+    </script>
+
+
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
+            <img align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+            <strong> Welcome {{ app.user.prenom }}</strong>
+        </div>
+
+        <ul class="nav navbar-right top-nav">
+            <li class="dropdown">
+                <a href="{{ path('security_logout') }}" class="dropdown-toggle" ><i class="fa fa-fw fa-power-off"></i> Log Out </a>
+            </li>
+        </ul>
+        {{ include('global/bar.html.twig') }}
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="container-fluid" style="margin-bottom: 25%">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        <div class="panel-body">
+                            <form class="navbar-form navbar-left">
+                                <div class="form-group">
+                                    <input type="text" name="q" class="form-control" placeholder="Search..."  value="{{ app.request.query.get('q') }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary dropdown-toggle"><span class="fa fa-search"></span>
+                                </button>
+                            </form>
+
+                            <form class="navbar-form navbar-left" action="{{ path('add_produit') }}" method="get" name="page">
+                                <input class="btn btn-primary dropdown-toggle" type="button" name="selectall" value="SelectAll" onClick="checkAll()"  style="margin-left:5px;"/>
+                                <input class="btn btn-primary dropdown-toggle" type="button" name="unselectall" value="DeSelectAll" onClick="uncheckAll()" style="margin-left:5px;" />
+                                <input class="btn btn-primary dropdown-toggle" name="dsubmit" type="button" value="Delete Selected" style="margin-left:5px;" onclick="return confirmDeleteSubmit()"/>
+                                <button class="btn btn-primary dropdown-toggle" type="submit"  style="margin-left:5px;"> Ajouter un Produit</button>
+                                Totale Produits ({{ pagination.getTotalItemCount }})
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
+                        <input name="table" type="hidden" value="customer_details">
+                        <input name="return" type="hidden" value="view_customer_details.php">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" align="center">
+                                <h1 class="panel-title"> La Liste des Produits</h1>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
+                                        <input name="table" type="hidden" value="customer_details">
+                                        <input name="return" type="hidden" value="view_customer_details.php">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nom</th>
+                                                    <th>Image</th>
+                                                    <th>Catégorie</th>
+                                                    <th>Quantité</th>
+                                                    <th>Prix d'achat DH</th>
+                                                    <th>View/Edit</th>
+                                                    <th>Delete</th>
+                                                    <th>Select</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% set id = 1 %}
+                                                {% for produit in pagination %}
+                                                <tr>
+                                                    <td>{{ id }}</td>
+                                                    <td>{{ produit.nom }}</td>
+                                                    <td><img src="{{ asset('uploads/' ~ produit.imagePath) }}" height="100px" width="100px"></td>
+                                                    <td>{{ produit.categorie.titre }}</td>
+                                                    <td>{{ produit.qteTotale }}</td>
+                                                    <td>{{ produit.prix }}</td>
+                                                    <td align="center"> <a href="{{ absolute_url(asset(''))}}dashboard/showProduit/edit/{{ produit.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
+                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}dashboard/showProduit/delete/{{ produit.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                    <td align="center" ><input  type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
+                                                </tr>
+                                                </tbody>
+                                                {% set id=id+1 %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">
+                                                            No Products found
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                            <div style="margin-left:20px;"> {{ knp_pagination_render(pagination) }}</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="{{ asset('build2/js/jquery.js') }}"></script>
+<script src="{{ asset('build2/js/bootstrap.min.js')}}"></script>
+
+</body>
+</html>

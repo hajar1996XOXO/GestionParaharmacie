@@ -1,0 +1,51 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User: #encoder user password
+            algorithm: bcrypt #with this algo
+    providers:
+        in_memory:  { memory: ~ }
+        in_database:
+            entity:
+                class: App\Entity\User #si qlq veut s'authentifier
+                property: email #on va chercher users par mail
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/  #laisser l'accees a la bare en bas sans security
+            security: false
+        main: #security sur tout mon site
+            anonymous: true #laisser l'acces a l'app par tous le monde
+
+            provider: in_database
+
+            form_login: #mode de connexion
+                login_path: security_login
+                check_path: security_login
+
+
+            logout: #deconnexion
+                path: security_logout
+                target: / #when logout it takes u to /blog adrress
+
+
+            remember_me: #remeber me functionnality
+                              secret:   '%kernel.secret%'
+                              lifetime: 604800 # 1 week in seconds
+                              path:     /
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    role_hierarchy:
+          ROLE_ADMIN:      ROLE_USER
+          #ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/profile, roles: ROLE_USER }

@@ -1,0 +1,56 @@
+{% block body %}
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Login</title>
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png') }}" type="image/png">
+    <link href="{{ asset('build2/indexx/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ asset('build2/indexx/js/jquery.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".username").focus(function() {
+                $(".user-icon").css("left","-48px");
+            });
+            $(".username").blur(function() {
+                $(".user-icon").css("left","0px");
+            });
+
+            $(".password").focus(function() {
+                $(".pass-icon").css("left","-48px");
+            });
+            $(".password").blur(function() {
+                $(".pass-icon").css("left","0px");
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {{ error }}
+
+    {% endif %}
+
+    <form method="post" class="login-form" action="{{ path('security_login') }}" >
+        <div class="header">
+            <h1>Login</h1>
+        </div>
+        <div class="content">
+            <input name="_username"  type="text" class="input username"  placeholder="Email" value="{{ last_username }}" onfocus="this.value=''" />
+            <input name="_password"  type="password" class="input password"  placeholder="Password" onfocus="this.value=''" />
+        </div>
+        <input type="hidden" name="_target_path" value="/dashboard" />
+        <div class="footer">
+            <input type="submit" name="submit"  class="button" />
+        </div>
+    </form>
+</div>
+<div class="gradient"></div>
+</body>
+</html>
+{% endblock %}
+
+

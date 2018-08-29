@@ -6,6 +6,8 @@ use App\Entity\Produit;
 use App\Entity\User;
 use App\Form\ProduitType;
 use App\Form\UserType;
+use App\Repository\ClientRepository;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -171,8 +173,66 @@ class GlobalController extends AbstractController
     }
 
 
+    /**
+     * @Route("/admin/dashboard/showClient", name="show_client")
+     */
+
+    public function showClient(ClientRepository $repo,Request $request,PaginatorInterface $paginator){
 
 
+        $q = $request->query->get('q');
+        //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
+        $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
+
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+
+
+
+        return $this->render('global/showClient.html.twig',[
+            'pagination' => $pagination
+        ]);
+    }
+
+    /**
+     * @Route("/admin/dashboard/showClient/delete/{id}", name="delete_client")
+     */
+    public function deleteClient($id,ClientRepository $repo,ObjectManager $manager){
+        $client=$repo->find($id);
+        $manager->remove($client);
+        $manager->flush();
+        return $this->redirectToRoute('show_client');
+
+    }
+
+    /**
+     * @Route("/admin/dashboard/showCommandes", name="show_commandes")
+     */
+
+    public function showCommandes(CommandeRepository $repo,Request $request,PaginatorInterface $paginator){
+
+
+
+        //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
+        $queryBuilder = $repo->findAll();//combines search with pagination
+
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+
+
+
+        return $this->render('global/showCommandes.html.twig',[
+            'pagination' => $pagination
+        ]);
+    }
 
 
 }

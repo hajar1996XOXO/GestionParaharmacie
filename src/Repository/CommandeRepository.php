@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,19 @@ class CommandeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param string|null $term
+     */
+    public function getWithSearchQueryBuilder(?string $term): QueryBuilder   //conbines search and pagination, returns QueryBuilder object
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.client', 'c'); //join table categorie
+        if ($term) {
+            $qb->andWhere('c.prenom LIKE :term OR c.nom LIKE :term ')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+        return $qb;
+    }
 }

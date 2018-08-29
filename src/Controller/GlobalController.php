@@ -216,9 +216,9 @@ class GlobalController extends AbstractController
     public function showCommandes(CommandeRepository $repo,Request $request,PaginatorInterface $paginator){
 
 
+        $q = $request->query->get('q');
+        $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
 
-        //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
-        $queryBuilder = $repo->findAll();//combines search with pagination
 
         $pagination = $paginator->paginate(
             $queryBuilder, /* query NOT result */

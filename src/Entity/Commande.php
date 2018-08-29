@@ -31,10 +31,10 @@ class Commande
     /**
      * @ORM\Column(type="float")
      */
-    private $montant;
+    private $montantTotal;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $etat;
 
@@ -50,16 +50,13 @@ class Commande
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Produit", inversedBy="commandes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Produit", inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $produits;
+    private $produit;
 
 
 
-    public function __construct()
-    {
-        $this->produits = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -90,14 +87,14 @@ class Commande
         return $this;
     }
 
-    public function getMontant(): ?float
+    public function getMontantTotal(): ?float
     {
-        return $this->montant;
+        return $this->montantTotal;
     }
 
-    public function setMontant(float $montant): self
+    public function setMontantTotal(float $montantTotal): self
     {
-        $this->montant = $montant;
+        $this->montantTotal = $montantTotal;
 
         return $this;
     }
@@ -138,31 +135,18 @@ class Commande
         return $this;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduits(): Collection
+
+
+    public function getProduit(): ?Produit
     {
-        return $this->produits;
+        return $this->produit;
     }
 
-    public function addProduit(Produit $produit): self
+    public function setProduit(?Produit $produit): self
     {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-        }
+        $this->produit = $produit;
 
         return $this;
     }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->contains($produit)) {
-            $this->produits->removeElement($produit);
-        }
-
-        return $this;
-    }
-
 
 }

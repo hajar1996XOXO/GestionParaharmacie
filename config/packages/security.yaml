@@ -3,37 +3,56 @@ security:
     encoders:
         App\Entity\User: #encoder user password
             algorithm: bcrypt #with this algo
+        App\Entity\Client:
+            algorithm: bcrypt
     providers:
         in_memory:  { memory: ~ }
-        in_database:
+
+        user_db:
             entity:
                 class: App\Entity\User #si qlq veut s'authentifier
                 property: email #on va chercher users par mail
 
+        client_db:
+            entity:
+                class: App\Entity\Client #si qlq veut s'authentifier
+                property: email #on va chercher users par mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/  #laisser l'accees a la bare en bas sans security
             security: false
-        main: #security sur tout mon site
+
+        #here define firewalls that u have, i have admin and client
+
+        client:
             anonymous: true #laisser l'acces a l'app par tous le monde
+            pattern: ^/site   #maust add pattern to distinguish between firewalls
+            provider: client_db
+            form_login: #mode de connexion
+                login_path: security_loginClient
+                check_path: security_loginClient
+            logout: #deconnexion
+                path: security_logoutClient
+                target: /site #when logout it takes u to /site address
 
-            provider: in_database
 
+        admin:
+            anonymous: true #laisser l'acces a l'app par tous le monde
+            pattern: ^/admin
+            provider: user_db
             form_login: #mode de connexion
                 login_path: security_login
                 check_path: security_login
-
-
             logout: #deconnexion
                 path: security_logout
-                target: / #when logout it takes u to /blog adrress
+                target: /admin
 
 
-            remember_me: #remeber me functionnality
-                              secret:   '%kernel.secret%'
-                              lifetime: 604800 # 1 week in seconds
-                              path:     /
-            # activate different ways to authenticate
+
+
+
+
+             # activate different ways to authenticate
 
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -48,4 +67,4 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/profile, roles: ROLE_USER }
+        #- { path: ^/admin/.*, roles: ROLE_USER }

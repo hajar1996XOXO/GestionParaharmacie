@@ -1,0 +1,97 @@
+{%  block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parapharmacie</title>
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('site/css/bootstrap.min.css') }}"/>
+    <script src="{{ asset('site/js/jquery2.js')}}"></script>
+    <script src="{{ asset('site/js/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{ asset('site/main.js')}}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/style.css')}}">
+
+
+    <style>
+        .topleft {
+            position: absolute;
+            top: 0px;
+            left: 16px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wait overlay">
+    <div class="loader"></div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <img class="topleft" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('site') }}" style="margin-left:80px;"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+            <li><a href="{{ path('site') }}"><span class="glyphicon glyphicon-modal-window"></span>Product</a></li>
+        </ul>
+    </div>
+</div>
+<p><br/></p>
+<p><br/></p>
+<p><br/></p>
+<div class="container-fluid">
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {{ error }}
+
+    {% endif %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Customer Login Form</div>
+                <div class="panel-body">
+                    <!--User Login Form-->
+                    <form action="{{ path('security_loginClient') }}"  method="post">
+                        <label for="email">Email</label>
+                        <input name="_username"  type="text" class="form-control"  placeholder="Email" value="{{ last_username }}"  />
+                        <label for="email">Password</label>
+                        <input name="_password"  type="password" class="form-control"  placeholder="Password"  />
+                        <p><br/></p>
+                        <input type="hidden" name="_target_path" value="/site" />
+                        <a href="#" style="color:#333; list-style:none;">Forgotten Password</a><input type="submit" class="btn btn-success" style="float:right;" Value="Login">
+                        <div><a href="{{ path('security_registration') }}">Create a new account?</a></div>
+                    </form>
+                </div>
+                <div class="panel-footer"><div id="e_msg"></div></div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

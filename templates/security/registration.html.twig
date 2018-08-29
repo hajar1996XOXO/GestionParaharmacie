@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parapharmacie</title>
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('site/css/bootstrap.min.css') }}"/>
+    <script src="{{ asset('site/js/jquery2.js')}}"></script>
+    <script src="{{ asset('site/js/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{ asset('site/main.js')}}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/style.css')}}">
+
+
+    <style>
+        .topleft {
+            position: absolute;
+            top: 0px;
+            left: 16px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wait overlay">
+    <div class="loader"></div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <img class="topleft" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('site') }}" style="margin-left:80px;"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+            <li><a href="{{ path('site') }}"><span class="glyphicon glyphicon-modal-window"></span>Product</a></li>
+        </ul>
+    </div>
+</div>
+<p><br/></p>
+<p><br/></p>
+<p><br/></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="signup_msg">
+            <!--Alert from signup form-->
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Customer SignUp Form</div>
+                <div class="panel-body">
+                    {{ form_start(formClient) }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_label(formClient.nom, 'Nom :') }}
+                                {{ form_widget(formClient.nom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+' ,'placeholder':'Nom' } }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(formClient.prenom, 'Prénom :') }}
+                                {{ form_widget(formClient.prenom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+','placeholder':'Prénom'} })   }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.email, 'Email :') }}
+                                {{ form_widget(formClient.email, {'attr': {'class': 'form-control', 'pattern': '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$','placeholder':'Email'} }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.password, 'Mot de passe :') }}
+                                {{ form_widget(formClient.password, {'attr': {'class': 'form-control','placeholder':'Mot de passe'} } ) }}
+                                <div class="alert alert-danger">
+                                    {{ form_errors(formClient.password)}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.confirmPassword, 'Confirmer Mot de passe :') }}
+                                {{ form_widget(formClient.confirmPassword, {'attr': {'class': 'form-control','placeholder':'Confirmer mot de passe'} } ) }}
+                                <div class="alert alert-danger">
+                                     {{ form_errors(formClient.confirmPassword)}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.adressLivraison, 'Adresse de livraison :') }}
+                                {{ form_widget(formClient.adressLivraison, {'attr': {'class': 'form-control','placeholder':'Adresse de livraison'} } ) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.villeLivraison, 'ville :') }}
+                                {{ form_widget(formClient.villeLivraison, {'attr': {'class': 'form-control'} } ) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.civility, 'Civilité  :') }}
+                                {{ form_widget(formClient.civility, {'attr': {'class': 'form-control'} } ) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_label(formClient.tel, 'Portable :') }}
+                                {{ form_widget(formClient.tel, {'attr': {'class': 'form-control','placeholder':'Portable' ,'pattern':'[+0-9]+'} } ) }}
+                            </div>
+                        </div>
+                            <p><br/></p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <input style="width:100%;" value="Sign Up" type="submit" class="btn btn-success btn-lg">
+                            </div>
+                        </div>
+                    {{ form_end(formClient) }}
+                </div>
+
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+</body>
+</html>
+<?php
+}
+
+
+
+?>
+
+
+
+
+

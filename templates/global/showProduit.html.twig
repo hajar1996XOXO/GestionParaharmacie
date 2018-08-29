@@ -143,8 +143,8 @@
                                                     <td>{{ produit.categorie.titre }}</td>
                                                     <td>{{ produit.qteTotale }}</td>
                                                     <td>{{ produit.prix }}</td>
-                                                    <td align="center"> <a href="{{ absolute_url(asset(''))}}dashboard/showProduit/edit/{{ produit.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
-                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}dashboard/showProduit/delete/{{ produit.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                    <td align="center"> <a href="{{ absolute_url(asset(''))}}admin/dashboard/showProduit/edit/{{ produit.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
+                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/showProduit/delete/{{ produit.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
                                                     <td align="center" ><input  type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
                                                 </tr>
                                                 </tbody>

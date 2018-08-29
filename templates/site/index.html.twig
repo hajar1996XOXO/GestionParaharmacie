@@ -20,6 +20,12 @@
             font-size: 18px;
         }
 
+        .ScrollStyle
+        {
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+
     </style>
 </head>
 <body>
@@ -44,15 +50,16 @@
                 <li><a href="{{ path('site') }}" style="margin-left:80px;"><span class="glyphicon glyphicon-home"></span>Home</a></li>
                 <li><a href="{{ path('site') }}"><span class="glyphicon glyphicon-modal-window"></span>Product</a></li>
             </ul>
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" action="/site?search=q"  method="get">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" id="search">
+                    <input type="text" class="form-control" placeholder="Search" id="search" name="search">
                 </div>
                 <button type="submit" class="btn btn-primary" id="search_btn"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Cart<span class="badge">0</span></a>
-                    <div class="dropdown-menu" style="width:400px;">
+                {% if app.user %}
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Mon Panier<span class="badge">{{ produitsCart|length }}</span></a>
+                    <div class="dropdown-menu ScrollStyle" style="width:400px;">
                         <div class="panel panel-success">
                             <div class="panel-heading">
                                 <div class="row">
@@ -63,32 +70,58 @@
                                 </div>
                             </div>
                             <div class="panel-body">
+                                {% if produitsCart  %}
+                                {% set id = 1 %}
+                                {% for p in produitsCart %}
                                 <div id="cart_product">
                                     <div class="row">
-                                        <div class="col-md-3">Sl.No</div>
-                                        <div class="col-md-3">Product Image</div>
-                                        <div class="col-md-3">Product Name</div>
-                                        <div class="col-md-3">Price in $.</div>
+                                        <div class="col-md-3">{{ id }}</div>
+                                        <div class="col-md-3"><img src="{{ asset('uploads/' ~ p.produit.imagePath) }}" height="100px" width="50px"></div>
+                                        <div class="col-md-3"><h6>{{ p.produit.nom }}</h6></div>
+                                        <div class="col-md-3">{{ p.produit.prix }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="btn-group">
+                                                <a href="{{ absolute_url(asset(''))}}site/delete/{{ p.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                                <a href="{{ absolute_url(asset(''))}}site/edit/{{ p.id }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                    {% set id=id+1 %}
+                                {% endfor %}
+                                {% endif %}
                             </div>
-                            <div class="panel-footer"></div>
                         </div>
                     </div>
                 </li>
+
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="" style="text-decoration:none; color:blue;"><span class="glyphicon glyphicon-shopping-cart"/>Cart</a></li>
+                        <li class="divider"></li>
+                        <li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
+                        <li class="divider"></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ path('security_logoutClient') }}" style="text-decoration:none; color:blue;">Logout</a></li>
+                    </ul>
+                </li>
+                {% else %}
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>SignIn</a>
                     <ul class="dropdown-menu">
                         <div style="width:300px;">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Login</div>
                                 <div class="panel-heading">
-                                    <form onsubmit="return false" id="login">
+                                    <form  action="{{ path('security_loginClient') }}"  method="post">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" id="email" required/>
+                                        <input name="_username"  type="text" class="form-control"  placeholder="Email"   />
                                         <label for="email">Password</label>
-                                        <input type="password" class="form-control" name="password" id="password" required/>
+                                        <input name="_password"  type="password" class="form-control"  placeholder="Password"  />
                                         <p><br/></p>Don't have an account?
-                                        <a href="{{ path('') }}" style="color:white; list-style:none;">Sign up</a><input type="submit" class="btn btn-success" style="float:right;">
+                                        <input type="hidden" name="_target_path" value="/site" />
+                                        <a href="{{ path('security_registration') }}" style="color:white; list-style:none;">Sign up</a><input type="submit" class="btn btn-success" style="float:right;">
                                     </form>
                                 </div>
                                 <div class="panel-footer" id="e_msg"></div>
@@ -96,6 +129,7 @@
                         </div>
                     </ul>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -135,7 +169,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Produits</div>
                 <div class="panel-body">
-                    {% for produit in produits %}
+                    {% for produit in pagination %}
                     <div class="col-md-4">
                         <div class="panel panel-info">
                             <div class="panel-heading">{{ produit.nom }}</div>
@@ -143,12 +177,13 @@
                                 <img src="{{ asset('uploads/' ~ produit.imagePath) }}" height="200px" width="150px">
                             </div>
                             <div class="panel-heading">{{ produit.prix }} DH
-                                <button style="float:right;" class="btn btn-danger btn-xs">AddToCart</button>
+                                <a href="{{ absolute_url(asset(''))}}site/cart/{{ produit.id }}" style="float:right;" class="btn btn-danger btn-xs">AddToCart</a>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
+                <div style="margin-left:20px;"> {{ knp_pagination_render(pagination) }}</div>
                 <div class="panel-footer">&copy; 2018</div>
             </div>
         </div>

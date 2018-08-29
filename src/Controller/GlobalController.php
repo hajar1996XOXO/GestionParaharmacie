@@ -20,7 +20,7 @@ class GlobalController extends AbstractController
 
 
     /**
-     * @Route("/", name="welcome")
+     * @Route("/admin", name="welcome")
      */
 
     public function index(){
@@ -28,7 +28,7 @@ class GlobalController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard", name="dashboard")
+     * @Route("/admin/dashboard", name="dashboard")
      */
 
     public function Dashboard(){
@@ -36,8 +36,8 @@ class GlobalController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/addEmploye", name="add_employe")
-     * @Route("/dashboard/showEmploye/edit/{id}",   name="edit_employe")
+     * @Route("/admin/dashboard/addEmploye", name="add_employe")
+     * @Route("/admin/dashboard/showEmploye/edit/{id}",   name="edit_employe")
      */
 
     public function AddEmploye(User $user=null,Request $request,ObjectManager $manager,UserPasswordEncoderInterface $encoder){
@@ -64,7 +64,7 @@ class GlobalController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/showEmploye", name="show_employe")
+     * @Route("/admin/dashboard/showEmploye", name="show_employe")
      */
 
     public function showEmploye(UserRepository $repo,Request $request,PaginatorInterface $paginator){
@@ -89,7 +89,7 @@ class GlobalController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/showEmploye/delete/{id}", name="delete_employe")
+     * @Route("/admin/dashboard/showEmploye/delete/{id}", name="delete_employe")
      */
     public function deleteEmploye($id,UserRepository $repo,ObjectManager $manager){
         $user=$repo->find($id);
@@ -103,13 +103,13 @@ class GlobalController extends AbstractController
 
 
     /**
-     * @Route("/dashboard/addProduit", name="add_produit")
-     * @Route("/dashboard/showProduit/edit/{id}",   name="edit_produit")
+     * @Route("/admin/dashboard/addProduit", name="add_produit")
+     * @Route("/admin/dashboard/showProduit/edit/{id}",   name="edit_produit")
      */
 
     public function AddProduit(Produit $produit=null,Request $request,ObjectManager $manager){
 
-        if(!$produit){//if user is null it means we re going to add a new one, or else just edit
+        if(!$produit){//if produit is null it means we re going to add a new one, or else just edit
             $produit=new Produit();
         }
 
@@ -134,7 +134,7 @@ class GlobalController extends AbstractController
 
 
     /**
-     * @Route("/dashboard/showProduit", name="show_produit")
+     * @Route("/admin/dashboard/showProduit", name="show_produit")
      */
 
     public function showProduit(ProduitRepository $repo,Request $request,PaginatorInterface $paginator){
@@ -160,7 +160,7 @@ class GlobalController extends AbstractController
 
 
     /**
-     * @Route("/dashboard/showProduit/delete/{id}", name="delete_produit")
+     * @Route("/admin/dashboard/showProduit/delete/{id}", name="delete_produit")
      */
     public function deleteProduit($id,ProduitRepository $repo,ObjectManager $manager){
         $produit=$repo->find($id);

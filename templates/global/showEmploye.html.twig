@@ -140,8 +140,8 @@
                                                     <td>{{ user.prenom }}</td>
                                                     <td>{{ user.email }}</td>
                                                     <td>{{ user.rawPassword }}</td>
-                                                    <td align="center"> <a href="{{ absolute_url(asset(''))}}dashboard/showEmploye/edit/{{ user.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
-                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}dashboard/showEmploye/delete/{{ user.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                    <td align="center"> <a href="{{ absolute_url(asset(''))}}admin/dashboard/showEmploye/edit/{{ user.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
+                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/showEmploye/delete/{{ user.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
                                                     <td align="center" ><input  type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
                                                 </tr>
                                                 </tbody>

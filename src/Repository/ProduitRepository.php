@@ -54,9 +54,10 @@ class ProduitRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder   //conbines search and pagination, returns QueryBuilder object
     {
-        $qb = $this->createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.categorie', 'c'); //join table categorie
         if ($term) {
-            $qb->andWhere('c.nom LIKE :term ')
+            $qb->andWhere('p.nom LIKE :term OR c.titre LIKE :term ')
                 ->setParameter('term', '%' . $term . '%')
             ;
         }

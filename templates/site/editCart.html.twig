@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parapharmacie</title>
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('site/css/bootstrap.min.css') }}"/>
+    <script src="{{ asset('site/js/jquery2.js')}}"></script>
+    <script src="{{ asset('site/js/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{ asset('site/main.js')}}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/style.css')}}">
+
+
+    <style>
+        .topleft {
+            position: absolute;
+            top: 0px;
+            left: 16px;
+            font-size: 18px;
+        }
+
+        .ScrollStyle
+        {
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wait overlay">
+    <div class="loader"></div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse" aria-expanded="false">
+                <span class="sr-only">navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">
+                <img class="topleft" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('site') }}" style="margin-left:80px;"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                <li><a href="{{ path('site') }}"><span class="glyphicon glyphicon-modal-window"></span>Product</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="/site?search=q"  method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" id="search" name="search">
+                </div>
+                <button type="submit" class="btn btn-primary" id="search_btn"><span class="glyphicon glyphicon-search"></span></button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user %}
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Cart<span class="badge">{{ produitsCart|length }}</span></a>
+                        <div class="dropdown-menu ScrollStyle" style="width:400px;">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-3">No</div>
+                                        <div class="col-md-3">Image du Produit</div>
+                                        <div class="col-md-3">Nom du Produit</div>
+                                        <div class="col-md-3">Prix en DH</div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    {% if produitsCart  %}
+                                        {% set id = 1 %}
+                                        {% for p in produitsCart %}
+                                            <div id="cart_product">
+                                                <div class="row">
+                                                    <div class="col-md-3">{{ id }}</div>
+                                                    <div class="col-md-3"><img src="{{ asset('uploads/' ~ p.produit.imagePath) }}" height="100px" width="50px"></div>
+                                                    <div class="col-md-3"><h6>{{ p.produit.nom }}</h6></div>
+                                                    <div class="col-md-3">{{ p.produit.prix }}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="btn-group">
+                                                            <a href="{{ absolute_url(asset(''))}}site/delete/{{ p.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                                            <a href="{{ absolute_url(asset(''))}}site/edit/{{ p.id }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% set id=id+1 %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="" style="text-decoration:none; color:blue;"><span class="glyphicon glyphicon-shopping-cart"/>Cart</a></li>
+                            <li class="divider"></li>
+                            <li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('security_logoutClient') }}" style="text-decoration:none; color:blue;">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>SignIn</a>
+                        <ul class="dropdown-menu">
+                            <div style="width:300px;">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Login</div>
+                                    <div class="panel-heading">
+                                        <form  action="{{ path('security_loginClient') }}"  method="post">
+                                            <label for="email">Email</label>
+                                            <input name="_username"  type="text" class="form-control"  placeholder="Email"   />
+                                            <label for="email">Password</label>
+                                            <input name="_password"  type="password" class="form-control"  placeholder="Password"  />
+                                            <p><br/></p>Don't have an account?
+                                            <input type="hidden" name="_target_path" value="/site" />
+                                            <a href="{{ path('security_registration') }}" style="color:white; list-style:none;">Sign up</a><input type="submit" class="btn btn-success" style="float:right;">
+                                        </form>
+                                    </div>
+                                    <div class="panel-footer" id="e_msg"></div>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<p><br/></p>
+<p><br/></p>
+<p><br/></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="cart_msg">
+            <!--Cart Message-->
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Mon Panier</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-2"><b>Action</b></div>
+                        <div class="col-md-2 col-xs-2"><b>Image du Produit</b></div>
+                        <div class="col-md-2 col-xs-2"><b>Nom du Produit</b></div>
+                        <div class="col-md-2 col-xs-2"><b>Quantité</b></div>
+                        <div class="col-md-2 col-xs-2"><b>Prix du Produit DH</b></div>
+                        <div class="col-md-2 col-xs-2"><b>Mode de Paiement</b></div>
+                    </div>
+                    <div id="cart_checkout"></div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <a href="{{ absolute_url(asset(''))}}site/delete/{{ produitCart.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-ok-sign"></span></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2"><img src="{{ asset('uploads/' ~ produitCart.produit.imagePath) }}" height="200px" width="120px"></div>
+                        <div class="col-md-2">{{ produitCart.produit.nom }}</div>
+                        <div class="col-md-2">
+                            <form action="{{ absolute_url(asset(''))}}site/edit/{{ produitCart.id }}?qte=q"  method="get">
+                                <input type="text" class="form-control" placeholder="Quantite" name="qte" value="{{ produitCart.qte  }}">
+                            </form>
+                        </div>
+                        <div class="col-md-2"><input type='text' class='form-control'  value="{{ produitCart.produit.prix }}" disabled></div>
+                        <div class="col-md-2">
+                            <form action="{{ absolute_url(asset(''))}}site/commander/{{ produitCart.id }}?radio=r" method="get">
+                            <input type="radio" name="radio" value="carte bancaire" checked> Carte bancaire<br>
+                                <input type="radio" name="radio" value="à la livraison"> à la livraison<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <b><h4><strong> Total: {{ produitCart.produit.prix*produitCart.qte }} DH</strong></h4></b></b>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="btn-group">
+                                    <button type="submit" name="submit" class="btn btn-info btn-lg" style="margin-left:550px;" >Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+            <div class="panel-footer"></div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

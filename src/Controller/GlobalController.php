@@ -33,8 +33,16 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard", name="dashboard")
      */
 
-    public function Dashboard(){
-        return $this->render('global/dashboard.html.twig');
+    public function Dashboard(CommandeRepository $repoCom,ClientRepository $repoCl,ProduitRepository $repoP){
+        $commandes=$repoCom->findAll();
+        $clients=$repoCl->findAll();
+        $produits=$repoP->findAll();
+
+        return $this->render('global/dashboard.html.twig',[
+            'commandes'=> $commandes,
+            'clients'=>$clients,
+            'produits'=>$produits
+        ]);
     }
 
     /**
@@ -233,6 +241,19 @@ class GlobalController extends AbstractController
             'pagination' => $pagination
         ]);
     }
+
+    /**
+     * @Route("/admin/dashboard/showCommandes/view/{id}", name="view_commande")
+     */
+
+    public function viewCommande(CommandeRepository $repo,$id){
+       $commande=$repo->find($id);
+
+        return $this->render('global/viewCommand.html.twig',[
+            'commande'=>$commande
+        ]);
+    }
+
 
 
 }

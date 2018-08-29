@@ -1,0 +1,89 @@
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="date" class="col-sm-12 control-label">Date: </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="time" class="col-sm-12 control-label">Date: </label>
+                    </div>
+                    <div class="col-md-4 col-xs-12 pull pull-left">
+                        <div class="form-group">
+                            <label for="gross_amount" class="col-sm-5 control-label" style="text-align:left;">Customer Name</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control"  value="" disabled/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gross_amount" class="col-sm-5 control-label" style="text-align:left;">Customer Address</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control"   value="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gross_amount" class="col-sm-5 control-label" style="text-align:left;">Customer Phone</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control"  value="" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br /> <br/>
+                    <table class="table table-bordered" id="product_info_table">
+                        <thead>
+                        <tr>
+                            <th style="width:50%">Product</th>
+                            <th style="width:10%">Qty</th>
+                            <th style="width:10%">Rate</th>
+                            <th style="width:20%">Amount</th>
+                            <th style="width:10%"><button type="button" id="add_row" class="btn btn-default"><i class="fa fa-plus"></i></button></th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr >
+                            <td>
+                                <select class="form-control select_group product" data-row-id="row_<?php echo $x; ?>" id="product_<?php echo $x; ?>" name="product[]" style="width:100%;" required>
+                                    <option value=""></option>
+                                    <option value="" ></option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="qty[]" id="qty_<?php echo $x; ?>" class="form-control" required  value="<?php echo $val['qty'] ?>" autocomplete="off"></td>
+                            <td>
+                                <input type="text" name="rate[]" id="rate_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['rate'] ?>" autocomplete="off">
+                                <input type="hidden" name="rate_value[]" id="rate_value_<?php echo $x; ?>" class="form-control" value="<?php echo $val['rate'] ?>" autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="amount[]" id="amount_<?php echo $x; ?>" class="form-control" disabled value="<?php echo $val['amount'] ?>" autocomplete="off">
+                                <input type="hidden" name="amount_value[]" id="amount_value_<?php echo $x; ?>" class="form-control" value="<?php echo $val['amount'] ?>" autocomplete="off">
+                            </td>
+                            <td><button type="button" class="btn btn-default" onclick="removeRow('<?php echo $x; ?>')"><i class="fa fa-close"></i></button></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <br /> <br/>
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+
+                    <input type="hidden" name="service_charge_rate" value="<?php echo $company_data['service_charge_value'] ?>" autocomplete="off">
+                    <input type="hidden" name="vat_charge_rate" value="<?php echo $company_data['vat_charge_value'] ?>" autocomplete="off">
+
+                    <a target="__blank" href="<?php echo base_url() . 'orders/printDiv/'.$order_data['order']['id'] ?>" class="btn btn-default" >Print</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="<?php echo base_url('orders/') ?>" class="btn btn-warning">Back</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

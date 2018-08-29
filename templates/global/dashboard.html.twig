@@ -64,7 +64,7 @@
                                 <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">120</div>
+                                <div class="large">{{ produits|length}}</div>
                                 <div class="text-muted">Stock</div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                 <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">24</div>
+                                <div class="large">{{ clients|length}}</div>
                                 <div class="text-muted">Clients</div>
                             </div>
                         </div>
@@ -103,8 +103,8 @@
                                 <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">25.2k</div>
-                                <div class="text-muted">Page Views</div>
+                                <div class="large">{{ commandes|length}}</div>
+                                <div class="text-muted">Commandes en Attente</div>
                             </div>
                         </div>
                     </div>

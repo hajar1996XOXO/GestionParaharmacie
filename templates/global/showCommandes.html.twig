@@ -128,6 +128,7 @@
                                                     <th>Montant</th>
                                                     <th>Date</th>
                                                     <th>Mode Paiement</th>
+                                                    <th>Status</th>
                                                     <th>View</th>
                                                     <th>Delete</th>
                                                     <th>Select</th>
@@ -144,9 +145,10 @@
                                                     <td>{{ commande.montantTotal }}</td>
                                                     <td>{{ commande.dateCommande| date('d/m/Y') }}</td>
                                                     <td>{{ commande.modePaiement }}</td>
+                                                    <td style="color:red;"> {{ commande.etat }}</td>
                                                     <td align="center"> <a href="{{ absolute_url(asset(''))}}admin/dashboard/showCommandes/view/{{ commande.id }}"><span class=" glyphicon glyphicon-pencil"></span></a></td>
                                                     <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/showClient/delete/{{ commande.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                    <td align="center" ><input  type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
+                                                    <td align="center" ><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
                                                 </tr>
                                                 </tbody>
                                                 {% set id=id+1 %}

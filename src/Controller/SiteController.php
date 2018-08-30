@@ -107,7 +107,8 @@ class SiteController extends AbstractController
                  ->setQte($produitCart->getQte())
                  ->setMontantTotal($produitCart->getMontantTotal())
                  ->setDateCommande(new \DateTime())
-                 ->setModePaiement($request->query->get('radio'));
+                 ->setModePaiement($request->query->get('radio'))
+                 ->setEtat('En Attente');
         $manager->persist($commande);
         $manager->remove($produitCart);
         $manager->flush();

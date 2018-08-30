@@ -34,14 +34,16 @@ class GlobalController extends AbstractController
      */
 
     public function Dashboard(CommandeRepository $repoCom,ClientRepository $repoCl,ProduitRepository $repoP){
-        $commandes=$repoCom->findAll();
+        $commandes=$repoCom->findByExampleField();
+        $ventes=$repoCom->findByExampleField2();
         $clients=$repoCl->findAll();
         $produits=$repoP->findAll();
 
         return $this->render('global/dashboard.html.twig',[
             'commandes'=> $commandes,
             'clients'=>$clients,
-            'produits'=>$produits
+            'produits'=>$produits,
+            'ventes'=>$ventes
         ]);
     }
 
@@ -254,6 +256,21 @@ class GlobalController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/dashboard/showCommandes/confirm/{id}", name="confirm_commande")
+     */
+    public function confirmCommande($id,CommandeRepository $repo,ObjectManager $manager,ProduitRepository $repoP){
+        $commande=$repo->find($id);
+        $commande->setEtat("Confirmée");
+        //change product quantity
+        $p=$commande->getProduit();
+        $p->setQteTotale(($p->getQteTotale())-($commande->getQte()));
+        $manager->persist($commande);
+        $manager->persist($p);
+        $manager->flush();
 
+        return $this->redirectToRoute('show_commandes');
+
+    }
 
 }

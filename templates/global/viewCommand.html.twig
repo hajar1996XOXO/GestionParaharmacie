@@ -9,9 +9,11 @@
         <title>Dashboard</title>
 
         <link href="{{ asset('build2/Knight/css/style.css') }}" rel="stylesheet" type="text/css">
+
         <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
         <link href="{{ asset('build2/css/bootstrap.min.css')}}" rel="stylesheet">
         <link href="{{ asset('build2/css/sb-admin.css') }}" rel="stylesheet">
+
         <link href="{{ asset('build2/css/plugins/morris.css')}}" rel="stylesheet">
         <link href="{{ asset('build2/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
 
@@ -25,6 +27,10 @@
             input:valid {
                 border: 1px solid rgb(200, 242, 250);
             }
+
+
+
+
         </style>
     </head>
     <body>
@@ -70,50 +76,52 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="box">
                                             <div class="box-body">
-                                                <br /> <br/>
                                                 <table class="table table-bordered" >
-                                                    <thead>
+                                                    <thead><h4>Le Client :</h4>
                                                     <tr>
-                                                        <th style="width:30%">Client</th>
-                                                        <th style="width:30%">Adresse</th>
-                                                        <th style="width:10%">Date Commande</th>
-                                                        <th style="width:10%">Portable</th>
+                                                        <th >Client</th>
+                                                        <th >Adresse</th>
+                                                        <th >Date de la Commande</th>
+                                                        <th >Portable</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr >
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
+                                                        <td>{{ commande.client.prenom  }}  {{ commande.client.nom }}</td>
+                                                        <td>{{ commande.client.adressLivraison }}, {{ commande.client.villeLivraison }}</td>
+                                                        <td>{{ commande.dateCommande| date('d/m/Y') }} à {{ commande.dateCommande| date('H:i') }}</td>
+                                                        <td>{{ commande.client.tel }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <br /> <br/>
+                                                <table class="table table-bordered" >
+                                                    <thead> <h4>Le Produit :</h4>
+                                                    <tr>
+                                                        <th >Produit</th>
+                                                        <th >Image</th>
+                                                        <th >Quantité</th>
+                                                        <th>Montant Total </th>
+                                                        <th>Mode de paiement</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr >
+                                                        <td>{{ commande.produit.nom }}</td>
+                                                        <td><img src="{{ asset('uploads/' ~ commande.produit.imagePath) }}" height="150px" width="100px"></td>
+                                                        <td>{{ commande.qte }}</td>
+                                                        <td>{{ commande.montantTotal }} DH</td>
+                                                        <td>{{ commande.modePaiement }} </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                                 <br /> <br/>
                                                 <br /> <br/>
-                                                <table class="table table-bordered" >
-                                                    <thead>
-                                                    <tr>
-                                                        <th style="width:30%">Produit</th>
-                                                        <th style="width:30%">Image</th>
-                                                        <th style="width:10%">Quantité</th>
-                                                        <th style="width:10%">Montant Total</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr >
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                        <td><input type="text"   class="form-control" required  value="" disabled></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
                                                 <br /> <br/>
                                             </div>
                                             <div class="box-footer">
                                                 <a target="__blank" href="" class="btn btn-default" >Print</a>
-                                                <button type="submit" class="btn btn-primary">Confirmer</button>
+                                                <a href="{{ absolute_url(asset(''))}}admin/dashboard/showCommandes/confirm/{{ commande.id }}" class="btn btn-primary">Confirmer</a>
                                                 <a href="" class="btn btn-danger">Cancel</a>
                                             </div>
                                         </div>

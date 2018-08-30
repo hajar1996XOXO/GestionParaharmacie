@@ -20,22 +20,36 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-//    /**
-//     * @return Commande[] Returns an array of Commande objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Commande[] Returns an array of Commande objects
+   */
+
+    public function findByExampleField()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('c.etat NOT LIKE :val')
+            ->setParameter('val', 'Confirmée')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+
+
+    /**
+     * @return Commande[] Returns an array of Commande objects
+     */
+
+    public function findByExampleField2()   //confirmed commands
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.etat  LIKE :val')
+            ->setParameter('val', 'Confirmée')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Commande
@@ -54,13 +68,19 @@ class CommandeRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder   //conbines search and pagination, returns QueryBuilder object
     {
-        $qb = $this->createQueryBuilder('p')
-            ->innerJoin('p.client', 'c'); //join table categorie
+        $qb = $this->createQueryBuilder('comm')
+            ->innerJoin('comm.client', 'client'); //join table client
+             $qb->andWhere('comm.etat NOT LIKE :term ')  //only show commandes en attente
+                ->setParameter('term', 'Confirmée');
+
         if ($term) {
-            $qb->andWhere('c.prenom LIKE :term OR c.nom LIKE :term ')
+            $qb->andWhere('client.prenom LIKE :term OR client.nom LIKE :term ')
                 ->setParameter('term', '%' . $term . '%')
             ;
         }
         return $qb;
     }
+
+
+
 }

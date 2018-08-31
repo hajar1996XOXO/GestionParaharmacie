@@ -57,7 +57,7 @@ class ProduitRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->innerJoin('p.categorie', 'c'); //join table categorie
         if ($term) {
-            $qb->andWhere('p.nom LIKE :term OR c.titre LIKE :term ')
+            $qb->andWhere('p.nom LIKE :term OR c.titre LIKE :term OR p.marque LIKE :term ')
                 ->setParameter('term', '%' . $term . '%')
             ;
         }

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parapharmacie</title>
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('site/css/bootstrap.min.css') }}"/>
+    <script src="{{ asset('site/js/jquery2.js')}}"></script>
+    <script src="{{ asset('site/js/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{ asset('site/main.js')}}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/style.css')}}">
+
+
+    <style>
+        .topleft {
+            position: absolute;
+            top: 0px;
+            left: 16px;
+            font-size: 18px;
+        }
+
+        .ScrollStyle
+        {
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wait overlay">
+    <div class="loader"></div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse" aria-expanded="false">
+                <span class="sr-only">navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">
+                <img class="topleft" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('site') }}" style="margin-left:80px;"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                <li><a href="{{ path('site') }}"><span class="glyphicon glyphicon-modal-window"></span>Product</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ path('contact') }}"><span class="glyphicon glyphicon-envelope"></span>Contact Us</a></li>
+                {% if app.user %}
+
+
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="" style="text-decoration:none; color:blue;"><span class="glyphicon glyphicon-shopping-cart"/>Cart</a></li>
+                            <li class="divider"></li>
+                            <li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('security_logoutClient') }}" style="text-decoration:none; color:blue;">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>SignIn</a>
+                        <ul class="dropdown-menu">
+                            <div style="width:300px;">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Login</div>
+                                    <div class="panel-heading">
+                                        <form  action="{{ path('security_loginClient') }}"  method="post">
+                                            <label for="email">Email</label>
+                                            <input name="_username"  type="text" class="form-control"  placeholder="Email"   />
+                                            <label for="email">Password</label>
+                                            <input name="_password"  type="password" class="form-control"  placeholder="Password"  />
+                                            <p><br/></p>Don't have an account?
+                                            <input type="hidden" name="_target_path" value="/site" />
+                                            <a href="{{ path('security_registration') }}" style="color:white; list-style:none;">Sign up</a><input type="submit" class="btn btn-success" style="float:right;">
+                                        </form>
+                                    </div>
+                                    <div class="panel-footer" id="e_msg"></div>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<p><br/></p>
+<p><br/></p>
+<p><br/></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="cart_msg">
+            <!--Cart Message-->
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
+                <input name="table" type="hidden" value="customer_details">
+                <input name="return" type="hidden" value="view_customer_details.php">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" align="center">
+                        <h1 class="panel-title">My orders</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
+                                <input name="table" type="hidden" value="customer_details">
+                                <input name="return" type="hidden" value="view_customer_details.php">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Type Livraison</th>
+                                            <th>Type Paiement</th>
+                                            <th>Statut</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set id = 1 %}
+                                        {% for commande in commandes %}
+                                        <tr>
+                                            <td>{{ id }}</td>
+                                            <td>{{ commande.dateCommande| date('d/m/Y') }} à {{ commande.dateCommande| date('H:m') }}</td>
+                                            <td> Livraison à domicile</td>
+                                            <td>{{ commande.modePaiement }}</td>
+                                            <td style="color:red;"> {{ commande.etat }}</td>
+                                            <td align="center"><a href="/site/pdf/{{ commande.id }}" >Bon de Livraison</a></td>
+                                        </tr>
+                                        </tbody>
+                                        {% set id=id+1 %}
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    No orders found
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div style="margin-left:20px;"> </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+<div class="col-md-2"></div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

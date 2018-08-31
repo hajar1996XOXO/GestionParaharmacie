@@ -4,10 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\ProduitCart;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitCartRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Snappy\Pdf;
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,8 +28,17 @@ class SiteController extends AbstractController
     {
 
         //$produits= $repo->findAllWithCategorie($q);
+        if($request->query->get('categorie')==null){
+            if($request->query->get('marque')==null){
+                $q=$request->query->get('search');
+            }else{
+                $q=$request->query->get('marque');
+            }
+        }else{
+            $q=$request->query->get('categorie');
+        }
 
-        $q=($request->query->get('categorie')==null)? $request->query->get('search'):$request->query->get('categorie');
+        //$q=($request->query->get('categorie')==null)? $request->query->get('search'):$request->query->get('categorie');
         $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
         $pagination = $paginator->paginate(
             $queryBuilder, /* query NOT result */
@@ -34,19 +48,32 @@ class SiteController extends AbstractController
 
 
         //add to cart
-        if($id) {
-            $produit = $repo->find($id);
+        if($id!=null and $this->getUser()==null) {
+            $this->addFlash(
+                'notice2',
+                "You Can't add Product to your Cart if you are not logged in !"
+            );
+        }elseif ($id)
+            {
+                $produit = $repo->find($id);
 
-            $produitCart=new ProduitCart();
-            $produitCart->setProduit($produit)
-                        ->setMontantTotal($produit->getPrix())
-                        ->setQte(1)
-                        ->setEtat("Pas valide");
-            $manager->persist($produitCart);
-            $manager->flush();
+                $produitCart=new ProduitCart();
+                $produitCart->setProduit($produit)
+                    ->setMontantTotal($produit->getPrix())
+                    ->setQte(1)
+                    ->setEtat("Pas valide");
+                $manager->persist($produitCart);
+                $manager->flush();
 
-            return $this->redirectToRoute('site');
-        }
+                $this->addFlash(
+                    'notice',
+                    'Product Successfully added to your Cart !'
+                );
+
+                return $this->redirectToRoute('site');
+            }
+
+
         $ProduitsCart=$repoCart->findAll();
 
         return $this->render('site/index.html.twig', [
@@ -118,6 +145,50 @@ class SiteController extends AbstractController
         return $this->render('site/ThankYou.html.twig');
 
     }
+
+
+    /**
+     * @Route("/site/contactUs", name="contact")
+     */
+    public function contactUs(ProduitCartRepository $repo){
+        $produitsCart=$repo->findAll();
+
+        return $this->render('site/contact.html.twig',[
+            'produitsCart'=>$produitsCart
+        ]);
+    }
+
+
+    /**
+     * @Route("/site/orders", name="orders")
+     */
+    public function orders(CommandeRepository $repo){
+        $user=$this->getUser();
+        $commandes=$repo->findCommandeByUser($user->getEmail());
+
+        return $this->render('site/orders.html.twig',[
+            'commandes'=>$commandes
+        ]);
+    }
+
+    /**
+     * @Route("/site/pdf/{id}", name="pdf")
+     */
+    public function pdfAction(Pdf $pdf,CommandeRepository $repo,$id)//dependancy Injection
+    {
+        //$user=$this->getUser();
+        $commande=$repo->find($id);
+
+        $html = $this->renderView('site/pdf.html.twig',[
+            'commande'=>$commande
+        ]);
+
+        return new PdfResponse(
+            $pdf->getOutputFromHtml($html),
+            'file.pdf'
+        );
+    }
+
 
 
 

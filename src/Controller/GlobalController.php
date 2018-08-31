@@ -53,8 +53,9 @@ class GlobalController extends AbstractController
      */
 
     public function AddEmploye(User $user=null,Request $request,ObjectManager $manager,UserPasswordEncoderInterface $encoder){
-
+        $editMode=true;
         if(!$user){//if user is null it means we re going to add a new one, or else just edit
+            $editMode=false;
             $user=new User();
         }
 
@@ -66,6 +67,19 @@ class GlobalController extends AbstractController
             $user->setPassword($encoder->encodePassword($user,$password));
             $manager->persist($user);
             $manager->flush();
+
+            if($editMode==true){
+                $this->addFlash(
+                    'notice1',
+                    'Employe Successfully edited !'
+                );
+            }else{
+                $this->addFlash(
+                    'notice2',
+                    'Employe Successfully added  !'
+                );
+            }
+
 
             return $this->redirectToRoute('show_employe');//redirects route
         }
@@ -272,5 +286,16 @@ class GlobalController extends AbstractController
         return $this->redirectToRoute('show_commandes');
 
     }
+    /**
+     * @Route("/admin/dashboard/rapport", name="rapport")
+     */
+    public function rapport(){
+        return $this->render('global/rapport.html.twig');
+    }
+
+
+
+
+
 
 }

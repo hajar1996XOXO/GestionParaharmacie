@@ -53,6 +53,22 @@
         }
         // -->
     </script>
+    <style>
+        .flash-notice {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #fcf8e3;
+        @include border-radius(2px);
+        }
+
+        .flash-success {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #468847;
+        }
+    </style>
 
 
 </head>
@@ -81,6 +97,16 @@
 
     <div id="page-wrapper">
         <div class="container-fluid" style="margin-bottom: 25%">
+            {% for message in app.flashes('notice1') %}
+                <div class="flash-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('notice2') %}
+                <div class="flash-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-lg-12">
                     <div class="col-lg-12">
@@ -93,10 +119,11 @@
                                     </button>
                             </form>
 
-                            <form class="navbar-form navbar-left" action="" method="get" name="page">
+                            <form class="navbar-form navbar-left" action="{{ path('add_employe') }}" method="get" name="page">
                                 <input class="btn btn-primary dropdown-toggle" type="button" name="selectall" value="SelectAll" onClick="checkAll()"  style="margin-left:5px;"/>
                                 <input class="btn btn-primary dropdown-toggle" type="button" name="unselectall" value="DeSelectAll" onClick="uncheckAll()" style="margin-left:5px;" />
                                 <input class="btn btn-primary dropdown-toggle" name="dsubmit" type="button" value="Delete Selected" style="margin-left:5px;" onclick="return confirmDeleteSubmit()"/>
+                                <button class="btn btn-primary dropdown-toggle" type="submit"  style="margin-left:5px;"> Ajouter un Employé</button>
                                 Totale Employés ({{ pagination.getTotalItemCount }})
                             </form>
                         </div>

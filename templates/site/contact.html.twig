@@ -4,15 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Parapharmacie</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
     <link rel="stylesheet" href="{{ asset('site/css/bootstrap.min.css') }}"/>
     <script src="{{ asset('site/js/jquery2.js')}}"></script>
@@ -35,12 +27,16 @@
             overflow-y: scroll;
         }
 
+        .header {
+            color: #36A0FF;
+            font-size: 27px;
+            padding: 10px;
+        }
 
-        .credit-card-div  span { padding-top:10px; }
-        .credit-card-div img { padding-top:30px; }
-        .credit-card-div .small-font { font-size:9px; }
-        .credit-card-div .pad-adjust { padding-top:10px; }
-
+        .bigicon {
+            font-size: 35px;
+            color: #36A0FF;
+        }
 
     </style>
 </head>
@@ -68,7 +64,6 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ path('contact') }}"><span class="glyphicon glyphicon-envelope"></span>Contact Us</a></li>
                 {% if app.user %}
                     <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Cart<span class="badge">{{ produitsCart|length }}</span></a>
                         <div class="dropdown-menu ScrollStyle" style="width:400px;">
@@ -152,135 +147,57 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8" id="cart_msg">
-            <!--Cart Message-->
-        </div>
         <div class="col-md-2"></div>
     </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Mon Panier</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-2 col-xs-2"><b>Action</b></div>
-                        <div class="col-md-2 col-xs-2"><b>Image du Produit</b></div>
-                        <div class="col-md-2 col-xs-2"><b>Nom du Produit</b></div>
-                        <div class="col-md-2 col-xs-2"><b>Quantité</b></div>
-                        <div class="col-md-2 col-xs-2"><b>Prix du Produit DH</b></div>
-                        <div class="col-md-2 col-xs-2"><b>Mode de Paiement</b></div>
-                    </div>
-                    <div id="cart_checkout"></div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="btn-group">
-                                <a href="{{ absolute_url(asset(''))}}site/delete/{{ produitCart.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                                <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-ok-sign"></span></a>
-                            </div>
-                        </div>
-                        <div class="col-md-2"><img src="{{ asset('uploads/' ~ produitCart.produit.imagePath) }}" height="200px" width="120px"></div>
-                        <div class="col-md-2">{{ produitCart.produit.nom }}</div>
-                        <div class="col-md-2">
-                            <form action="{{ absolute_url(asset(''))}}site/edit/{{ produitCart.id }}?qte=q"  method="get">
-                                <input type="text" class="form-control" placeholder="Quantite" name="qte" value="{{ produitCart.qte  }}">
-                            </form>
-                        </div>
-                        <div class="col-md-2"><input type='text' class='form-control'  value="{{ produitCart.produit.prix }}" disabled></div>
-                        <div class="col-md-2">
-                            <form action="{{ absolute_url(asset(''))}}site/commander/{{ produitCart.id }}?radio=r" method="get">
-                            <input type="radio" name="radio" value="carte bancaire" data-toggle="modal" data-target="#myModal" > Carte bancaire<br>
-                                <input type="radio" name="radio" value="à la livraison" checked> A la livraison<br>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4">
-                            <b><h4><strong> Total: {{ produitCart.produit.prix*produitCart.qte }} DH</strong></h4></b></b>
-                        </div>
-                    </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="btn-group">
-                                    <button type="submit" name="submit" class="btn btn-info btn-lg" style="margin-left:550px;" >Commander</button>
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    <form class="form-horizontal" method="post">
+                        <fieldset>
+                            <legend class="text-center header">Contact us</legend>
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div class="col-md-8">
+                                    <input id="fname" name="name" type="text" placeholder="First Name" class="form-control">
                                 </div>
                             </div>
-                        </div>
-                            </form>
-            </div>
-            <div class="panel-footer"></div>
-        </div>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-</div>
-
-
-<!-- Modal for the popup credit cart-->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">
-                    Please Enter Credit Card Informations
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form action="#" class="credit-card-div">
-                    <div class="panel panel-default" >
-                        <div class="panel-heading">
-
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" placeholder="Enter Card Number" />
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <span class="help-block text-muted small-font" > Expiry Month</span>
-                                    <input type="text" class="form-control" placeholder="MM" />
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <span class="help-block text-muted small-font" >  Expiry Year</span>
-                                    <input type="text" class="form-control" placeholder="YY" />
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <span class="help-block text-muted small-font" >  CCV</span>
-                                    <input type="text" class="form-control" placeholder="CCV" />
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <img src="{{ asset('images/credit-card.png') }}" class="img-rounded" width="60px" height="70px" />
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col-md-12 pad-adjust">
-
-                                    <input type="text" class="form-control" placeholder="Name On The Card" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 pad-adjust">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" checked class="text-muted"> Save details for fast payments <a href="#"> learn how ?</a>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
-                                    <input type="submit"  class="btn btn-danger" value="CANCEL" />
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
-                                    <input type="submit"  class="btn btn-warning btn-block" value="PAY NOW" />
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div class="col-md-8">
+                                    <input id="lname" name="name" type="text" placeholder="Last Name" class="form-control">
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                </form>
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                                <div class="col-md-8">
+                                    <input id="email" name="email" type="text" placeholder="Email Address" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                                <div class="col-md-8">
+                                    <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" id="message" name="message" placeholder="Enter your massage for us here. We will get back to you within 2 business days." rows="7"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -82,5 +82,21 @@ class CommandeRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @return Commande[] Returns an array of Commande objects
+     */
+
+    public function findCommandeByUser($val)
+    {
+        return $this->createQueryBuilder('com')
+            ->innerJoin('com.client', 'client')
+            ->andWhere('client.email  LIKE :val')
+            ->setParameter('val', $val)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 
 }

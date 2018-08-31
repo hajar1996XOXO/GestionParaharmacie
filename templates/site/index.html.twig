@@ -26,6 +26,28 @@
             overflow-y: scroll;
         }
 
+        .flash-notice {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #fcf8e3;
+        @include border-radius(2px);
+        }
+
+        .flash-success {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #468847;
+        }
+        .flash-error {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #ead2d3;
+            border-color: #eed3d7;
+            color: #984949;
+        }
+
     </style>
 </head>
 <body>
@@ -57,7 +79,8 @@
                 <button type="submit" class="btn btn-primary" id="search_btn"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                {% if app.user %}
+                <li><a href="{{ path('contact') }}"><span class="glyphicon glyphicon-envelope"></span>Contact Us</a></li>
+                    {% if app.user %}
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Mon Panier<span class="badge">{{ produitsCart|length }}</span></a>
                     <div class="dropdown-menu ScrollStyle" style="width:400px;">
                         <div class="panel panel-success">
@@ -99,9 +122,8 @@
 
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="" style="text-decoration:none; color:blue;"><span class="glyphicon glyphicon-shopping-cart"/>Cart</a></li>
                         <li class="divider"></li>
-                        <li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
+                        <li><a href="{{ path('orders') }}" style="text-decoration:none; color:blue;">Orders</a></li>
                         <li class="divider"></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('security_logoutClient') }}" style="text-decoration:none; color:blue;">Logout</a></li>
@@ -155,14 +177,23 @@
             </div>
             <div class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><h4>Marque</h4></a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Categories</a></li>
+                <li><a href="/site?marque=A-DERMA">A-DERMA</a></li>
+                <li><a href="/site?marque=ADDAX">ADDAX</a></li>
+                <li><a href="/site?marque=BELIFLOR">BELIFLOR</a></li>
             </div>
         </div>
         <div class="col-md-8 col-xs-12">
             <div class="row">
+                {% for message in app.flashes('notice') %}
+                    <div class="flash-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('notice2') %}
+                    <div class="flash-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <div class="col-md-12 col-xs-12" id="product_msg">
                 </div>
             </div>

@@ -3,10 +3,13 @@ knp_snappy:
         enabled:    true
         binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
         options:
-            no-outline: true
-            page-size: LETTER
-            # Recommended to set UTF-8 as default encoding :)
-            encoding: UTF-8
+            page-size: A4
+            dpi: 300
+            image-quality: 80
+            margin-left: 15mm
+            margin-right: 15mm
+            margin-top: 15mm
+            margin-bottom: 15mm
 
     image:
         enabled:    true

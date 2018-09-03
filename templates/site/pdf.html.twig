@@ -1,15 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Bon de Livraison</title>
 
+    <style>
+        html *
+        {
+            font-size: 1.1em !important;
 
+        }
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+            margin-left: 5px;
+        }
+
+        .border{
+            border-style: groove;
+        }
+
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<img class="topleft" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="100px" height="60px">
+
+<img class="topleft" align="left" src="http://www.pharmaciedefrangy.com/images/logo.png" width="190px" height="150px">
 
 <div class="top-rightop">
-    <strong><h5 style="color:green;">Parapharmacie</h5></strong>
-    <h6>Date: {{ commande.dateCommande| date('d/m/Y') }}</h6>
+    <strong><h2 style="margin-left:800px;color:green;">Parapharmacie</h2></strong>
+    <h3 style="margin-left:800px;color:firebrick">Livraison #{{ commande.id }}</h3>
+    <h3 style="margin-left:800px;">{{ commande.dateCommande| date('d/m/Y') }}</h3>
+</div>
+</br></br>
+<div class="border">
+        <div class="left ">
+            <h3>Numéro de commande : {{ commande.id }}</h3>
+            <h3>Date de commande : {{ commande.dateCommande| date('d/m/Y') }}</h3>
+            <h3>Mode de Paiement : {{ commande.modePaiement}}</h3>
+            <h3>Montant Total : {{ commande.montantTotal }} DH</h3>
+        </div>
+        <div class="right ">
+            <strong><h3 style="color: green">Adresse de livraison </h3></strong>
+            <h3>{{ commande.client.prenom}} {{ commande.client.nom}}</h3>
+            <h3>{{ commande.client.adressLivraison}},{{ commande.client.villeLivraison}}</h3>
+            <h3>{{ commande.client.tel }}</h3>
+        </div>
+</div>
+</br></br></br></br></br></br></br></br></br></br></br>
+<div id="customers">
+<table width="100%">
+    <thead>
+    <tr>
+        <th>Produit</th>
+        <th>Référence</th>
+        <th>Quantité</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ commande.produit.nom }}</td>
+        <td>{{ commande.produit.id }}</td>
+        <td>{{ commande.qte }}</td>
+    </tr>
+    </tbody>
+</table>
 </div>
 </body>
 </html>

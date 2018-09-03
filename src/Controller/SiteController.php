@@ -15,6 +15,7 @@ use Knp\Snappy\Pdf;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SiteController extends AbstractController
@@ -183,10 +184,21 @@ class SiteController extends AbstractController
             'commande'=>$commande
         ]);
 
-        return new PdfResponse(
-            $pdf->getOutputFromHtml($html),
-            'file.pdf'
+        $filename='BonLivraison';
+
+        return new Response($pdf->getOutputFromHtml($html),200, array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
+            )
         );
+    }
+
+
+    /**
+     * @Route("/site/test" , name="test")
+     */
+    public function test(CommandeRepository $repo){
+        return $this->render('site/pdf.html.twig');
     }
 
 

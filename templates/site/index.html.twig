@@ -104,12 +104,12 @@
                                         <div class="col-md-3">{{ p.produit.prix }}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="btn-group">
+                                            <div class="col-md-6">
                                                 <a href="{{ absolute_url(asset(''))}}site/delete/{{ p.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <a href="{{ absolute_url(asset(''))}}site/edit/{{ p.id }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                                     {% set id=id+1 %}

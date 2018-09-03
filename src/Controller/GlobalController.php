@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Fournisseur;
 use App\Entity\Produit;
 use App\Entity\User;
+use App\Form\FournisseurType;
 use App\Form\ProduitType;
 use App\Form\UserType;
 use App\Repository\ClientRepository;
@@ -121,6 +123,10 @@ class GlobalController extends AbstractController
     public function deleteEmploye($id,UserRepository $repo,ObjectManager $manager){
         $user=$repo->find($id);
         $manager->remove($user);
+        $this->addFlash(
+            'notice',
+            'Employe Successfully deleted !'
+        );
         $manager->flush();
        return $this->redirectToRoute('show_employe');
 
@@ -147,6 +153,11 @@ class GlobalController extends AbstractController
             $fileName=md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('upload_directory'),$fileName);
             $produit->setImagePath($fileName);
+
+            $this->addFlash(
+                'notice',
+                'Produit Successfully added !'
+            );
 
             $manager->persist($produit);
             $manager->flush();
@@ -192,6 +203,10 @@ class GlobalController extends AbstractController
     public function deleteProduit($id,ProduitRepository $repo,ObjectManager $manager){
         $produit=$repo->find($id);
         $manager->remove($produit);
+        $this->addFlash(
+            'notice',
+            'Produit Successfully deleted !'
+        );
         $manager->flush();
         return $this->redirectToRoute('show_produit');
 
@@ -229,6 +244,10 @@ class GlobalController extends AbstractController
     public function deleteClient($id,ClientRepository $repo,ObjectManager $manager){
         $client=$repo->find($id);
         $manager->remove($client);
+        $this->addFlash(
+            'notice',
+            'Client Successfully deleted !'
+        );
         $manager->flush();
         return $this->redirectToRoute('show_client');
 
@@ -315,6 +334,81 @@ class GlobalController extends AbstractController
             'pagination'=>$pagination
         ]);
     }
+
+    /**
+     * @Route("/admin/dashboard/message/delete/{id}", name="delete_message")
+     */
+    public function deleteMessage($id,MessageRepository $repo,ObjectManager $manager){
+        $message=$repo->find($id);
+        $manager->remove($message);
+        $this->addFlash(
+            'notice',
+            'Message Successfully deleted !'
+        );
+        $manager->flush();
+        return $this->redirectToRoute('message');
+
+    }
+
+
+    /**
+     * @Route("/admin/dashboard/addFournisseur", name="add_fournisseur")
+     * @Route("/admin/dashboard/showFournisseur/edit/{id}",   name="edit_fournisseur")
+     */
+
+    public function AddFournisseur(Fournisseur $fournisseur=null,Request $request,ObjectManager $manager){
+
+        if(!$fournisseur){//if produit is null it means we re going to add a new one, or else just edit
+            $fournisseur=new Fournisseur();
+        }
+
+        $form=$this->createForm(FournisseurType::class,$fournisseur);
+        $form->handleRequest($request);//input
+        if($form->isSubmitted() && $form->isValid() ){
+
+            $this->addFlash(
+                'notice',
+                'Fournisseur Successfully added !'
+            );
+
+            $manager->persist($fournisseur);
+            $manager->flush();
+
+            return $this->redirectToRoute('show_fournisseur');//redirects route
+        }
+        return $this->render('global/addFournisseur.html.twig',[
+            'formFournisseur'=>$form->createView() , //on pass a twig lee formulaire
+            'editMode'=> $fournisseur->getId()!==null //edit mode is true or false
+        ]);
+    }
+
+
+    /**
+     * @Route("/admin/dashboard/showClient", name="show_client")
+     */
+
+    public function showFournisseur(ClientRepository $repo,Request $request,PaginatorInterface $paginator){
+
+
+        $q = $request->query->get('q');
+        //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
+        $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
+
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+
+
+
+        return $this->render('global/showClient.html.twig',[
+            'pagination' => $pagination
+        ]);
+    }
+
+
 
 
 

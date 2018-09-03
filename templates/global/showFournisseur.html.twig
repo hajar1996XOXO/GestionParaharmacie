@@ -53,7 +53,6 @@
         }
         // -->
     </script>
-
     <style>
         .flash-notice {
             padding: 8px 14px;
@@ -119,7 +118,7 @@
                                 <input class="btn btn-primary dropdown-toggle" type="button" name="selectall" value="SelectAll" onClick="checkAll()"  style="margin-left:5px;"/>
                                 <input class="btn btn-primary dropdown-toggle" type="button" name="unselectall" value="DeSelectAll" onClick="uncheckAll()" style="margin-left:5px;" />
                                 <input class="btn btn-primary dropdown-toggle" name="dsubmit" type="button" value="Delete Selected" style="margin-left:5px;" onclick="return confirmDeleteSubmit()"/>
-                                Totale Messages ({{ pagination.getTotalItemCount }})
+                                Totale Fournisseurs ({{ pagination.getTotalItemCount }})
                             </form>
                         </div>
                     </div>
@@ -132,7 +131,7 @@
                         <input name="return" type="hidden" value="view_customer_details.php">
                         <div class="panel panel-primary">
                             <div class="panel-heading" align="center">
-                                <h1 class="panel-title"> Messages</h1>
+                                <h1 class="panel-title"> La Liste des Fournisseurs</h1>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -144,34 +143,36 @@
                                                 <thead>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>Comment</th>
                                                     <th>Nom</th>
-                                                    <th>Prénom</th>
+                                                    <th>Adresse</th>
                                                     <th>Email</th>
-                                                    <th>Date</th>
+                                                    <th>Ville</th>
+                                                    <th>Téléphone</th>
+                                                    <th>Edit/View</th>
                                                     <th>Delete</th>
                                                     <th>Select</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 {% set id = 1 %}
-                                                {% for message in pagination %}
+                                                {% for f in pagination %}
                                                 <tr>
                                                     <td>{{ id }}</td>
-                                                    <td>{{ message.comment }}</td>
-                                                    <td>{{ message.nom }}</td>
-                                                    <td>{{ message.prenom }}</td>
-                                                    <td>{{ message.email }}</td>
-                                                    <td>{{ message.date| date('d/m/Y') }}</td>
-                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/message/delete/{{ message.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
-                                                    <td align="center" ><input type="checkbox" value="<?php echo $row['id']; ?>" name="checklist[]" /></td>
+                                                    <td>{{ f.nom }}</td>
+                                                    <td>{{ f.Adresse }}</td>
+                                                    <td>{{ f.email }}</td>
+                                                    <td>{{ f.tel }}</td>
+                                                    <td>{{ f.ville }}</td>
+                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/showFournisseur/delete/{{ f.id }} " ><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                                    <td align="center"><a onclick="return confirmSubmit()" href="{{ absolute_url(asset(''))}}admin/dashboard/showFournisseur/delete/{{ f.id }} " ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                                    <td align="center" ><input  type="checkbox" value="" name="checklist[]" /></td>
                                                 </tr>
                                                 </tbody>
                                                 {% set id=id+1 %}
                                                 {% else %}
                                                     <tr>
                                                         <td colspan="4" class="text-center">
-                                                            No messages found
+                                                            No Fournisseurs found
                                                         </td>
                                                     </tr>
                                                 {% endfor %}

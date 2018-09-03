@@ -65,7 +65,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if app.user %}
-                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Cart<span class="badge">{{ produitsCart|length }}</span></a>
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Mon Panier<span class="badge">{{ produitsCart|length }}</span></a>
                         <div class="dropdown-menu ScrollStyle" style="width:400px;">
                             <div class="panel panel-success">
                                 <div class="panel-heading">
@@ -88,11 +88,11 @@
                                                     <div class="col-md-3">{{ p.produit.prix }}</div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-2">
-                                                        <div class="btn-group">
-                                                            <a href="{{ absolute_url(asset(''))}}site/delete/{{ p.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                                                            <a href="{{ absolute_url(asset(''))}}site/edit/{{ p.id }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
-                                                        </div>
+                                                    <div class="col-md-6">
+                                                        <a href="{{ absolute_url(asset(''))}}site/delete/{{ p.id }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a href="{{ absolute_url(asset(''))}}site/edit/{{ p.id }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,7 +106,6 @@
 
                     <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
                         <ul class="dropdown-menu">
-                            <li><a href="" style="text-decoration:none; color:blue;"><span class="glyphicon glyphicon-shopping-cart"/>Cart</a></li>
                             <li class="divider"></li>
                             <li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
                             <li class="divider"></li>

@@ -1,0 +1,113 @@
+{% block body %}
+    <html >
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Dashboard</title>
+
+        <link href="{{ asset('build2/Knight/css/style.css') }}" rel="stylesheet" type="text/css">
+        <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+        <link href="{{ asset('build2/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{ asset('build2/css/sb-admin.css') }}" rel="stylesheet">
+        <link href="{{ asset('build2/css/plugins/morris.css')}}" rel="stylesheet">
+        <link href="{{ asset('build2/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+        <style>
+            input:invalid {
+            //  border-color: #a9180e;
+            }
+
+            input:valid {
+                border: 1px solid rgb(200, 242, 250);
+            }
+        </style>
+    </head>
+    <body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+                <img align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+                <strong> Welcome {{ app.user.prenom }}</strong>
+            </div>
+
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="{{ path('security_logout') }}" class="dropdown-toggle" ><i class="fa fa-fw fa-power-off"></i> Log Out </a>
+                </li>
+            </ul>
+            {{ include('global/bar.html.twig') }}
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid" style="padding-bottom: 20%">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <h1 align="center" class="page-header">
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" align="center">
+                                <h1 class="panel-title">
+                                    {% if editMode %}
+                                        Modifier un Fournisseur
+                                    {% else %}
+                                        Ajouter un Fournisseur
+                                    {% endif %}
+                                </h1>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-offset-3">
+                                        {{ form_start(formFournisseur) }}
+                                        <div class="form-group">
+                                            {{ form_label(formFournisseur.nom, 'Nom :') }}
+                                            {{ form_widget(formFournisseur.nom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+' } }) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(formFournisseur.adresse, 'Adresse :') }}
+                                            {{ form_widget(formFournisseur.adresse, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+'} })   }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(formFournisseur.ville, 'ville :') }}
+                                            {{ form_widget(formFournisseur.ville, {'attr': {'class': 'form-control'} } ) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(formFournisseur.email, 'Email :') }}
+                                            {{ form_widget(formFournisseur.email, {'attr': {'class': 'form-control', 'pattern': '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'} }) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(formFournisseur.tel, 'Téléphone :') }}
+                                            {{ form_widget(formFournisseur.tel, {'attr': {'class': 'form-control'} } ) }}
+                                        </div>
+                                        <button type="submit" name="Submit" class="btn btn-primary">Submit </button>
+                                        <button type="reset" name="Reset" value="Reset" class="btn btn-primary">Reset </button>
+                                        {{ form_end(formFournisseur) }}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('build2/js/jquery.js') }}"></script>
+    <script src="{{ asset('build2/js/bootstrap.min.js')}}"></script>
+
+    </body>
+    </html>
+{% endblock %}

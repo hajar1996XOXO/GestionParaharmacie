@@ -53,6 +53,22 @@
         }
         // -->
     </script>
+    <style>
+        .flash-notice {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #fcf8e3;
+        @include border-radius(2px);
+        }
+
+        .flash-success {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #468847;
+        }
+    </style>
 
 
 </head>
@@ -80,6 +96,11 @@
     </nav>
 
     <div id="page-wrapper">
+        {% for message in app.flashes('notice') %}
+            <div class="flash-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="container-fluid" style="margin-bottom: 25%">
             <div class="row">
                 <div class="col-lg-12">

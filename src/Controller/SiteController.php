@@ -116,6 +116,10 @@ class SiteController extends AbstractController
     public function deleteProduit($id,ProduitCartRepository  $repo,ObjectManager $manager){
         $produitCart=$repo->find($id);
         $manager->remove($produitCart);
+        $this->addFlash(
+            'notice',
+            'Product Successfully deleted !'
+        );
         $manager->flush();
 
         return $this->redirectToRoute('site');

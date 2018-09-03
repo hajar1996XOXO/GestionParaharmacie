@@ -8,6 +8,7 @@ use App\Form\ProduitType;
 use App\Form\UserType;
 use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\MessageRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -291,6 +292,28 @@ class GlobalController extends AbstractController
      */
     public function rapport(){
         return $this->render('global/rapport.html.twig');
+    }
+
+
+    /**
+     * @Route("/admin/dashboard/message", name="message")
+     */
+    public function message(MessageRepository $repo,Request $request,PaginatorInterface $paginator){
+
+
+        $q = $request->query->get('q');
+        $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
+
+
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+        return $this->render('global/message.html.twig',[
+            'pagination'=>$pagination
+        ]);
     }
 
 

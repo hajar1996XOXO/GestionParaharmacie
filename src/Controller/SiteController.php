@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Message;
 use App\Entity\ProduitCart;
+use App\Form\MessageType;
 use App\Repository\CommandeRepository;
 use App\Repository\ProduitCartRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 
@@ -151,11 +152,27 @@ class SiteController extends AbstractController
     /**
      * @Route("/site/contactUs", name="contact")
      */
-    public function contactUs(ProduitCartRepository $repo){
-        $produitsCart=$repo->findAll();
+    public function contactUs(ProduitCartRepository $repo,Request $request,ObjectManager $manager){
+        $produitsCart=$repo->findAll();//show products
+        $message=new Message();
+        $form=$this->createForm(MessageType::class,$message);
+        $form->handleRequest($request);//input
+        if($form->isSubmitted() && $form->isValid()){
+            $message->setDate(new \DateTime());
+            $this->addFlash(
+                'notice',
+                'Message Successfully sent !'
+            );
+
+            $manager->persist($message);
+            $manager->flush();
+
+            return $this->redirectToRoute('site');
+        }
 
         return $this->render('site/contact.html.twig',[
-            'produitsCart'=>$produitsCart
+            'produitsCart'=>$produitsCart,
+            'formMessage'=>$form->createView()
         ]);
     }
 
@@ -194,12 +211,7 @@ class SiteController extends AbstractController
     }
 
 
-    /**
-     * @Route("/site/test" , name="test")
-     */
-    public function test(CommandeRepository $repo){
-        return $this->render('site/pdf.html.twig');
-    }
+
 
 
 

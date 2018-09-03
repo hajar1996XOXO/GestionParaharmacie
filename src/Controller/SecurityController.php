@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Client;
-use App\Entity\User;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -79,7 +78,6 @@ class SecurityController extends AbstractController
      */
     public function loginClient(AuthenticationUtils $authenticationUtils){
 
-        dump("fuck");
 
 
         // get the login error if there is one
@@ -88,8 +86,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        dump($lastUsername);
-        dump($error);
+
 
         return $this->render('security/loginClient.html.twig',[
             'last_username' => $lastUsername,

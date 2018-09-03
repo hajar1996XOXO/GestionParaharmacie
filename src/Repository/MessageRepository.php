@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,19 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * @param string|null $term
+     */
+    public function getWithSearchQueryBuilder(?string $term): QueryBuilder   //conbines search and pagination, returns QueryBuilder object
+    {
+        $qb = $this->createQueryBuilder('p');
+        if ($term) {
+            $qb->andWhere('p.nom LIKE :term OR p.prenom LIKE :term ')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+        return $qb;
+    }
 }

@@ -10,6 +10,7 @@ use App\Form\ProduitType;
 use App\Form\UserType;
 use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\FournisseurRepository;
 use App\Repository\MessageRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UserRepository;
@@ -37,6 +38,9 @@ class GlobalController extends AbstractController
      */
 
     public function Dashboard(CommandeRepository $repoCom,ClientRepository $repoCl,ProduitRepository $repoP){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $commandes=$repoCom->findByExampleField();
         $ventes=$repoCom->findByExampleField2();
         $clients=$repoCl->findAll();
@@ -56,6 +60,9 @@ class GlobalController extends AbstractController
      */
 
     public function AddEmploye(User $user=null,Request $request,ObjectManager $manager,UserPasswordEncoderInterface $encoder){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $editMode=true;
         if(!$user){//if user is null it means we re going to add a new one, or else just edit
             $editMode=false;
@@ -97,7 +104,9 @@ class GlobalController extends AbstractController
      */
 
     public function showEmploye(UserRepository $repo,Request $request,PaginatorInterface $paginator){
-
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
         $q = $request->query->get('q');
         //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
@@ -121,6 +130,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/showEmploye/delete/{id}", name="delete_employe")
      */
     public function deleteEmploye($id,UserRepository $repo,ObjectManager $manager){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $user=$repo->find($id);
         $manager->remove($user);
         $this->addFlash(
@@ -141,9 +153,13 @@ class GlobalController extends AbstractController
      */
 
     public function AddProduit(Produit $produit=null,Request $request,ObjectManager $manager){
-
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
+        $editMode=true;
         if(!$produit){//if produit is null it means we re going to add a new one, or else just edit
             $produit=new Produit();
+            $editMode=false;
         }
 
         $form=$this->createForm(ProduitType::class,$produit);
@@ -154,10 +170,19 @@ class GlobalController extends AbstractController
             $file->move($this->getParameter('upload_directory'),$fileName);
             $produit->setImagePath($fileName);
 
-            $this->addFlash(
-                'notice',
-                'Produit Successfully added !'
-            );
+            if($editMode==true){
+                $this->addFlash(
+                    'notice1',
+                    'Product Successfully edited !'
+                );
+            }else{
+                $this->addFlash(
+                    'notice2',
+                    'Product Successfully added  !'
+                );
+            }
+
+
 
             $manager->persist($produit);
             $manager->flush();
@@ -176,7 +201,9 @@ class GlobalController extends AbstractController
      */
 
     public function showProduit(ProduitRepository $repo,Request $request,PaginatorInterface $paginator){
-
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
         $q = $request->query->get('q');
         //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
@@ -201,6 +228,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/showProduit/delete/{id}", name="delete_produit")
      */
     public function deleteProduit($id,ProduitRepository $repo,ObjectManager $manager){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $produit=$repo->find($id);
         $manager->remove($produit);
         $this->addFlash(
@@ -218,7 +248,9 @@ class GlobalController extends AbstractController
      */
 
     public function showClient(ClientRepository $repo,Request $request,PaginatorInterface $paginator){
-
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
         $q = $request->query->get('q');
         //$usersSearch = $repo->findAllWithSearch($q);//we no longer use this,coz its for search only
@@ -242,6 +274,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/showClient/delete/{id}", name="delete_client")
      */
     public function deleteClient($id,ClientRepository $repo,ObjectManager $manager){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $client=$repo->find($id);
         $manager->remove($client);
         $this->addFlash(
@@ -258,7 +293,9 @@ class GlobalController extends AbstractController
      */
 
     public function showCommandes(CommandeRepository $repo,Request $request,PaginatorInterface $paginator){
-
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
         $q = $request->query->get('q');
         $queryBuilder = $repo->getWithSearchQueryBuilder($q);//combines search with pagination
@@ -283,6 +320,9 @@ class GlobalController extends AbstractController
      */
 
     public function viewCommande(CommandeRepository $repo,$id){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
        $commande=$repo->find($id);
 
         return $this->render('global/viewCommand.html.twig',[
@@ -294,6 +334,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/showCommandes/confirm/{id}", name="confirm_commande")
      */
     public function confirmCommande($id,CommandeRepository $repo,ObjectManager $manager,ProduitRepository $repoP){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $commande=$repo->find($id);
         $commande->setEtat("Confirmée");
         //change product quantity
@@ -310,6 +353,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/rapport", name="rapport")
      */
     public function rapport(){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         return $this->render('global/rapport.html.twig');
     }
 
@@ -318,6 +364,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/message", name="message")
      */
     public function message(MessageRepository $repo,Request $request,PaginatorInterface $paginator){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
 
         $q = $request->query->get('q');
@@ -339,6 +388,9 @@ class GlobalController extends AbstractController
      * @Route("/admin/dashboard/message/delete/{id}", name="delete_message")
      */
     public function deleteMessage($id,MessageRepository $repo,ObjectManager $manager){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
         $message=$repo->find($id);
         $manager->remove($message);
         $this->addFlash(
@@ -357,6 +409,9 @@ class GlobalController extends AbstractController
      */
 
     public function AddFournisseur(Fournisseur $fournisseur=null,Request $request,ObjectManager $manager){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
         if(!$fournisseur){//if produit is null it means we re going to add a new one, or else just edit
             $fournisseur=new Fournisseur();
@@ -384,10 +439,13 @@ class GlobalController extends AbstractController
 
 
     /**
-     * @Route("/admin/dashboard/showClient", name="show_client")
+     * @Route("/admin/dashboard/showFournisseur", name="show_fournisseur")
      */
 
-    public function showFournisseur(ClientRepository $repo,Request $request,PaginatorInterface $paginator){
+    public function showFournisseur(FournisseurRepository $repo,Request $request,PaginatorInterface $paginator){
+        if($this->getUser()==null){
+            return $this->redirectToRoute('security_login');
+        }
 
 
         $q = $request->query->get('q');
@@ -403,10 +461,12 @@ class GlobalController extends AbstractController
 
 
 
-        return $this->render('global/showClient.html.twig',[
+        return $this->render('global/showFournisseur.html.twig',[
             'pagination' => $pagination
         ]);
     }
+
+
 
 
 

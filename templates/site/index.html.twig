@@ -123,8 +123,9 @@
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Hi {{ app.user.prenom }}</a>
                     <ul class="dropdown-menu">
                         <li class="divider"></li>
-                        <li><a href="{{ path('orders') }}" style="text-decoration:none; color:blue;">Orders</a></li>
+                        <li><a href="{{ path('profile') }}" style="text-decoration:none; color:blue;">Profile</a></li>
                         <li class="divider"></li>
+                        <li><a href="{{ path('orders') }}" style="text-decoration:none; color:blue;">Orders</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('security_logoutClient') }}" style="text-decoration:none; color:blue;">Logout</a></li>
                     </ul>
@@ -194,10 +195,15 @@
                         {{ message }}
                     </div>
                 {% endfor %}
+                {% for message in app.flashes('notice4') %}
+                    <div class="flash-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <div class="col-md-12 col-xs-12" id="product_msg">
                 </div>
             </div>
-            <div class="panel panel-info">
+            <div class="panel panel-info" >
                 <div class="panel-heading">Produits</div>
                 <div class="panel-body">
                     {% for produit in pagination %}
@@ -207,9 +213,23 @@
                             <div class="panel-body">
                                 <img src="{{ asset('uploads/' ~ produit.imagePath) }}" height="200px" width="150px">
                             </div>
-                            <div class="panel-heading">{{ produit.prix }} DH
-                                <a href="{{ absolute_url(asset(''))}}site/cart/{{ produit.id }}" style="float:right;" class="btn btn-danger btn-xs">AddToCart</a>
-                            </div>
+                            <div class="panel-heading" >{{ produit.prix }} DH</div>
+                            <div class="panel-heading">
+                                {% if produit.qteTotale>0 %}
+                                    <button  class="btn btn-primary btn-xs">Disponible</button>
+                                {% else %}
+                                    <button class="btn btn-primary btn-xs">NonDisponible</button>
+                                {% endif %}
+                                {% if (app.user) %}
+                                    {% if produit.qteTotale>0 %}
+                                         <a href="{{ absolute_url(asset(''))}}site/cart/{{ produit.id }}" style="float:right;" class="btn btn-danger btn-xs">AddToCart</a>
+                                    {% else %}
+                                         <a href="{{path('site') }}" style="float:right;" class="btn btn-danger btn-xs">AddToCart</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ path('security_registration') }}" style="float:right;" class="btn btn-danger btn-xs">AddToCart</a>
+                                {% endif %}
+                             </div>
                         </div>
                     </div>
                     {% endfor %}

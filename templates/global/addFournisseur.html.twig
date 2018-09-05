@@ -73,11 +73,11 @@
                                         {{ form_start(formFournisseur) }}
                                         <div class="form-group">
                                             {{ form_label(formFournisseur.nom, 'Nom :') }}
-                                            {{ form_widget(formFournisseur.nom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+' } }) }}
+                                            {{ form_widget(formFournisseur.nom, {'attr': {'class': 'form-control' } }) }}
                                         </div>
                                         <div class="form-group">
                                             {{ form_label(formFournisseur.adresse, 'Adresse :') }}
-                                            {{ form_widget(formFournisseur.adresse, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+'} })   }}
+                                            {{ form_widget(formFournisseur.adresse, {'attr': {'class': 'form-control'} })   }}
                                         </div>
                                         <div class="form-group">
                                             {{ form_label(formFournisseur.ville, 'ville :') }}
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{ form_label(formFournisseur.tel, 'Téléphone :') }}
-                                            {{ form_widget(formFournisseur.tel, {'attr': {'class': 'form-control'} } ) }}
+                                            {{ form_widget(formFournisseur.tel, {'attr': {'class': 'form-control','pattern':'[+0-9]+'} } ) }}
                                         </div>
                                         <button type="submit" name="Submit" class="btn btn-primary">Submit </button>
                                         <button type="reset" name="Reset" value="Reset" class="btn btn-primary">Reset </button>

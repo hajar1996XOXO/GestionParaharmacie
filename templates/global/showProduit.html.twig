@@ -96,7 +96,12 @@
     </nav>
 
     <div id="page-wrapper">
-        {% for message in app.flashes('notice') %}
+        {% for message in app.flashes('notice1') %}
+            <div class="flash-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('notice2') %}
             <div class="flash-success">
                 {{ message }}
             </div>

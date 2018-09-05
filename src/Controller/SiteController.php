@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Commande;
 use App\Entity\Message;
 use App\Entity\ProduitCart;
+use App\Form\ClientType;
 use App\Form\MessageType;
+use App\Form\ProfileType;
+use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\ProduitCartRepository;
 use App\Repository\ProduitRepository;
@@ -18,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SiteController extends AbstractController
 {
@@ -76,7 +81,9 @@ class SiteController extends AbstractController
             }
 
 
+
         $ProduitsCart=$repoCart->findAll();
+
 
         return $this->render('site/index.html.twig', [
             'pagination' => $pagination,
@@ -212,6 +219,35 @@ class SiteController extends AbstractController
                 'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
             )
         );
+    }
+
+
+    /**
+     * @Route("/site/profile", name="profile")
+     */
+    public function profile(Request $request,ObjectManager $manager,UserPasswordEncoderInterface $encoder){
+        $client=$this->getUser();
+        $form=$this->createForm(ProfileType::class,$client);
+        $form->handleRequest($request);//input
+        if($form->isSubmitted() && $form->isValid() ) {
+            $password=$client->getPassword();
+            $client->setPassword($encoder->encodePassword($client,$password));
+
+            $manager->persist($client);
+            $manager->flush();
+            $this->addFlash(
+                'notice4',
+                'Profile Successfully Updated !'
+            );
+
+            return $this->redirectToRoute('site');
+
+        }
+
+        return $this->render('site/profile.html.twig',[
+            'formClient'=>$form->createView()
+
+        ]);
     }
 
 

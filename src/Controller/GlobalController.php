@@ -466,6 +466,34 @@ class GlobalController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/dashboard/journal", name="journal")
+     */
+    public function journal(ProduitRepository $repo,CommandeRepository $repoCom,PaginatorInterface $paginator,Request $request){
+
+        $queryBuilder1 = $repo->findAllQuery();
+
+        $pagination1 = $paginator->paginate(
+            $queryBuilder1, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            3/*limit per page*/
+        );
+
+        $queryBuilder2 = $repoCom->findByExampleField2();
+
+        $pagination2 = $paginator->paginate(
+            $queryBuilder2, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+
+        return $this->render('global/journal.html.twig',[
+            'pagination1'=> $pagination1,
+            'pagination2'=>$pagination2
+        ]);
+    }
+
 
 
 

@@ -1,0 +1,199 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard</title>
+
+
+    <link href="{{ asset('build2/Knight/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link rel="icon" href="{{ asset('build2/Knight/logo.png')}}" type="image/png">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('table/perfect-scrollbar.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('table/main.css')}}">
+
+    <link href="{{ asset('build2/css/bootstrap.min.css')}}" rel="stylesheet">
+
+
+    <link href="{{ asset('build2/css/sb-admin.css') }}" rel="stylesheet">
+
+
+
+    <link href="{{ asset('build2/css/plugins/morris.css')}}" rel="stylesheet">
+    <link href="{{ asset('build2/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+
+
+    <style>
+        .flash-notice {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #fcf8e3;
+        @include border-radius(2px);
+        }
+
+        .flash-success {
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #468847;
+        }
+    </style>
+
+
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
+            <img style="margin-left:5px;" align="left" src="{{ asset('build2/Knight/logo.png') }}" width="90px" height="55px">
+            <strong > Welcome {{ app.user.prenom }}</strong>
+        </div>
+
+        <ul class="nav navbar-right top-nav">
+            <li class="dropdown">
+                <a href="{{ path('security_logout') }}" class="dropdown-toggle" ><i class="fa fa-fw fa-power-off"></i> Log Out </a>
+            </li>
+        </ul>
+        {{ include('global/bar.html.twig') }}
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="container-fluid" style="margin-bottom: 25%">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" align="center">
+                            <h1 class="panel-title"> Journal d'entrèes</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+
+                                    <div class="container-table100">
+                                        <div class="wrap-table100">
+
+                                            <div class="table100 ver2 m-b-110">
+                                                <div class="table100-head">
+                                                    <table>
+                                                        <thead>
+
+                                                        <tr class="row100 head">
+                                                            <th class="cell100 column1">Produit</th>
+                                                            <th class="cell100 column2">Catégorie</th>
+                                                            <th class="cell100 column3">Fournisseur</th>
+                                                            <th class="cell100 column4">Quantité</th>
+                                                            <th class="cell100 column5">Date Entree</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+
+                                                <div class="table100-body js-pscroll">
+                                                    <table>
+                                                        <tbody>
+                                                        {% for produit in pagination1 %}
+                                                        <tr class="row100 body">
+                                                            <td class="cell100 column1">{{ produit.nom }}</td>
+                                                            <td class="cell100 column2">{{ produit.categorie.titre }}</td>
+                                                            <td class="cell100 column3">{{ produit.fournisseur.nom }}</td>
+                                                            <td class="cell100 column4">{{ produit.qteTotale }}</td>
+                                                            <td class="cell100 column5">{{ produit.dateLivraison | date('d/m/Y') }} à {{ produit.dateLivraison | date('H:m') }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-left:20px;"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" align="center">
+                            <h1 class="panel-title"> Journal de Sorties</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+
+                                    <div class="container-table100">
+                                        <div class="wrap-table100">
+
+                                            <div class="table100 ver2 m-b-110">
+                                                <div class="table100-head">
+                                                    <table>
+                                                        <thead>
+
+                                                        <tr class="row100 head">
+                                                            <th class="cell100 column1">Produit</th>
+                                                            <th class="cell100 column2">Catégorie</th>
+                                                            <th class="cell100 column4">Quantité</th>
+                                                            <th class="cell100 column3">Prix</th>
+                                                            <th class="cell100 column5">Date Sortie</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+
+                                                <div class="table100-body js-pscroll">
+                                                    <table>
+                                                        <tbody>
+                                                        {% for commande in pagination2 %}
+                                                            <tr class="row100 body">
+                                                                <td class="cell100 column1">{{ commande.produit.nom }}</td>
+                                                                <td class="cell100 column2">{{ commande.produit.categorie.titre }}</td>
+                                                                <td class="cell100 column4">{{ commande.qte}}</td>
+                                                                <td class="cell100 column3">{{ commande.montantTotal }}</td>
+                                                                <td class="cell100 column5">{{ commande.dateCommande | date('d/m/Y') }} à {{ commande.dateCommande | date('H:m') }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left:20px;"> {{ knp_pagination_render(pagination1) }}</div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ asset('build2/js/jquery.js') }}"></script>
+<script src="{{ asset('build2/js/bootstrap.min.js')}}"></script>
+
+</body>
+</html>

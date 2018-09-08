@@ -132,19 +132,13 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
-                        <input name="table" type="hidden" value="customer_details">
-                        <input name="return" type="hidden" value="view_customer_details.php">
                         <div class="panel panel-primary">
                             <div class="panel-heading" align="center">
                                 <h1 class="panel-title"> La Liste des Employés</h1>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <form role="form" name="deletefiles" action="deleteselected.php" method="post" >
-                                        <input name="table" type="hidden" value="customer_details">
-                                        <input name="return" type="hidden" value="view_customer_details.php">
-                                        <div class="table-responsive">
+                                       <div class="table-responsive">
                                             <table class="table table-bordered table-hover table-striped">
                                                 <thead>
                                                 <tr>
@@ -182,19 +176,14 @@
                                                 {% endfor %}
                                             </table>
                                             <div style="margin-left:20px;"> {{ knp_pagination_render(pagination) }}</div>
-                                        </div>
-                                    </form>
+                                       </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 

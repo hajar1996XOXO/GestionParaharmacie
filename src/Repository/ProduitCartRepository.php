@@ -36,15 +36,17 @@ class ProduitCartRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?ProduitCart
+    /**
+        * @return ProduitCart[] Returns an array of ProduitCart objects
+     */
+    public function findOneByClient($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->andWhere('p.client = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
 }

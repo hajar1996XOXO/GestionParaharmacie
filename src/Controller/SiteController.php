@@ -68,7 +68,8 @@ class SiteController extends AbstractController
                 $produitCart->setProduit($produit)
                     ->setMontantTotal($produit->getPrix())
                     ->setQte(1)
-                    ->setEtat("Pas valide");
+                    ->setEtat("Pas valide")
+                    ->setClient($this->getUser());
                 $manager->persist($produitCart);
                 $manager->flush();
 
@@ -82,7 +83,7 @@ class SiteController extends AbstractController
 
 
 
-        $ProduitsCart=$repoCart->findAll();
+        $ProduitsCart=$repoCart->findOneByClient($this->getUser());
 
 
         return $this->render('site/index.html.twig', [

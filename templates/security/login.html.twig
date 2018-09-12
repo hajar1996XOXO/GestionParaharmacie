@@ -26,6 +26,10 @@
 </head>
 <body>
 <div id="wrapper">
+    {% if error %}
+        <div style="color: white">Désolé, nous n'avons pas trouvé de compte avec cette adresse e-mail. Veuillez réessayer.</div>
+    {% endif %}
+    </br>
     <div class="user-icon"></div>
     <div class="pass-icon"></div>
 

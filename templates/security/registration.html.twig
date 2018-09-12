@@ -58,11 +58,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form_label(formClient.nom, 'Nom :') }}
-                                {{ form_widget(formClient.nom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+' ,'placeholder':'Nom' } }) }}
+                                {{ form_widget(formClient.nom, {'attr': {'class': 'form-control' } }) }}
                             </div>
                             <div class="col-md-6">
                                 {{ form_label(formClient.prenom, 'Prénom :') }}
-                                {{ form_widget(formClient.prenom, {'attr': {'class': 'form-control', 'pattern': '[A-Za-z]+\[A-Za-z]+','placeholder':'Prénom'} })   }}
+                                {{ form_widget(formClient.prenom, {'attr': {'class': 'form-control'} })   }}
                             </div>
                         </div>
                         <div class="row">
@@ -75,18 +75,14 @@
                             <div class="col-md-12">
                                 {{ form_label(formClient.password, 'Mot de passe :') }}
                                 {{ form_widget(formClient.password, {'attr': {'class': 'form-control','placeholder':'Mot de passe'} } ) }}
-                                <div class="alert alert-danger">
-                                    {{ form_errors(formClient.password)}}
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 {{ form_label(formClient.confirmPassword, 'Confirmer Mot de passe :') }}
                                 {{ form_widget(formClient.confirmPassword, {'attr': {'class': 'form-control','placeholder':'Confirmer mot de passe'} } ) }}
-                                <div class="alert alert-danger">
-                                     {{ form_errors(formClient.confirmPassword)}}
-                                </div>
+                                {{ form_errors(formClient.confirmPassword)}}
+
                             </div>
                         </div>
                         <div class="row">

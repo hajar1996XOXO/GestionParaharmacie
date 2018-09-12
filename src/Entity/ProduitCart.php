@@ -42,6 +42,12 @@ class ProduitCart
      */
     private $modePaiement;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +110,18 @@ class ProduitCart
     public function setModePaiement(?string $modePaiement): self
     {
         $this->modePaiement = $modePaiement;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

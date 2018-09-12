@@ -42,10 +42,11 @@
 <p><br/></p>
 <div class="container-fluid">
     {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {{ error }}
+        <div >Désolé, nous n'avons pas trouvé de compte avec cette adresse e-mail. Veuillez réessayer ou <a href="{{ path("security_registration") }}"> créez un nouveau compte.</a></div>
+
 
     {% endif %}
+</br></br>
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">

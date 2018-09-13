@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16aa3e2-be99-4502-b16c-04bf43ab798a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/templates/site/test.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/site/test.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/site/test.html.twig" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,20 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProduitCart.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ProduitCart.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Entity/ProduitCart.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="862">
               <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.html.twig" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/site/test.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="7" selection-start-column="7" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -465,12 +456,12 @@
       <workItem from="1536100871044" duration="21483000" />
       <workItem from="1536666442734" duration="67000" />
       <workItem from="1536780374392" duration="6236000" />
-      <workItem from="1536796691396" duration="955000" />
+      <workItem from="1536796691396" duration="1266000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="269513000" />
+    <option name="totallyTimeSpent" value="269824000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -826,17 +817,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/ProduitCart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="862">
-          <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/site/test.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="7" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/ProduitCart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="862">
+          <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
         </state>
       </provider>
     </entry>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16aa3e2-be99-4502-b16c-04bf43ab798a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/site/test.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/site/test.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/site/test.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +66,11 @@
       </file>
       <file leaf-file-name="test.html.twig" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/site/test.html.twig">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="7" selection-start-column="7" selection-end-column="7" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="login.html.twig" pinned="false" current-in-tab="false">
@@ -175,7 +179,6 @@
         <option value="$PROJECT_DIR$/templates/global/test.html.twig" />
         <option value="$PROJECT_DIR$/templates/global/test2.html.twig" />
         <option value="$PROJECT_DIR$/templates/global/rapport.html.twig" />
-        <option value="$PROJECT_DIR$/templates/site/test.html.twig" />
         <option value="$PROJECT_DIR$/config/packages/knp_snappy.yaml" />
         <option value="$PROJECT_DIR$/templates/site/pdf.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/MessageType.php" />
@@ -208,6 +211,7 @@
         <option value="$PROJECT_DIR$/templates/site/editCart.html.twig" />
         <option value="$PROJECT_DIR$/templates/security/loginClient.html.twig" />
         <option value="$PROJECT_DIR$/templates/security/login.html.twig" />
+        <option value="$PROJECT_DIR$/templates/site/test.html.twig" />
       </list>
     </option>
   </component>
@@ -461,12 +465,12 @@
       <workItem from="1536100871044" duration="21483000" />
       <workItem from="1536666442734" duration="67000" />
       <workItem from="1536780374392" duration="6236000" />
-      <workItem from="1536796691396" duration="358000" />
+      <workItem from="1536796691396" duration="955000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="268916000" />
+    <option name="totallyTimeSpent" value="269513000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -830,7 +834,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/site/test.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

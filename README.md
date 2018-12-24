@@ -1,1 +1,1 @@
-E-commerce web application for parapharmacy managemnet system.
+E-commerce web application for parapharmacy management system.

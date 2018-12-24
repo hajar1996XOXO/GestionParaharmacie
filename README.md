@@ -1,1 +1,1 @@
-Application de Gestion de parapharmacie.
+E-commerce web application for parapharmacy managemnet system.
